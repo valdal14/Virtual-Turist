@@ -11,7 +11,7 @@ import Foundation
 //MARK: - Protocol
 protocol DataServicing {
 	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, imageData: Data?)
-	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws
+	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws -> [T]
 }
 
 //MARK: - Enums
@@ -33,9 +33,6 @@ enum OperationType {
 
 //MARK: - DataControllerService
 class DataControllerService: DataServicing {
-	
-	var pins: [Pin]?
-	var photos: [Photo]?
 	
 	//MARK: - DataServicing Delegatation
 	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, imageData: Data?) {
@@ -62,7 +59,7 @@ class DataControllerService: DataServicing {
 		try? saveData(context: viewContext)
 	}
 	
-	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws where T : NSFetchRequestResult {
+	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws -> [T] where T : NSFetchRequestResult  {
 		
 		let viewContext = persistentContainer.viewContext
 		
@@ -71,12 +68,13 @@ class DataControllerService: DataServicing {
 			let sortByDate = NSSortDescriptor(key: "creationDate", ascending: true)
 			pinRequest.sortDescriptors = [sortByDate]
 			
-			self.pins = try fetchRequestObjectData(request: pinRequest, context: viewContext)
+			let pins = try fetchRequestObjectData(request: pinRequest, context: viewContext)
+			return pins as! [T]
 			
 		} else if type(of: T.self) == Photo.Type.self {
 			let photoRequest = Photo.fetchRequest() as NSFetchRequest<Photo>
-			self.photos = try fetchRequestObjectData(request: photoRequest, context: viewContext)
-			
+			let photos = try fetchRequestObjectData(request: photoRequest, context: viewContext)
+			return photos as! [T]
 		} else {
 			print(DataControllerError.invalidaType)
 			throw DataControllerError.invalidaType

@@ -10,9 +10,8 @@ import Foundation
 
 class DataControllerViewModel: ObservableObject {
 	let dataControllerService: DataControllerService
-	// viewContext
 	let container: NSPersistentContainer
-	@Published var turistLocations: [Pin] = []
+	@Published var pins: [Pin] = []
 	
 	init(dataControllerService: DataControllerService, containerName: String) {
 		self.dataControllerService = dataControllerService
@@ -39,6 +38,6 @@ class DataControllerViewModel: ObservableObject {
 	
 	func fetchData() throws {
 		let request = Pin.fetchRequest() as NSFetchRequest<Pin>
-		try self.dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
+		pins = try self.dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
 	}
 }

@@ -15,18 +15,8 @@ struct VirtualTustistView: View {
 	
 	@State private var mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12), span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
 	
-	@State private var locations = [
-		Turist(coordinate: CLLocationCoordinate2D(latitude: 51.501, longitude: -0.141)),
-		Turist(coordinate: CLLocationCoordinate2D(latitude: 51.508, longitude: -0.076))
-	]
-	
 	@State var mapInitialPosition = CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12)
-	
-	@FetchRequest(
-		sortDescriptors: [NSSortDescriptor(keyPath: \Pin.id, ascending: true)],
-		animation: .default)
-	
-	private var pins: FetchedResults<Pin>
+	@State var mapSpan = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
 	
 	@State private var showError = false
 	@State var longPressLocation = CGPoint.zero
@@ -34,7 +24,9 @@ struct VirtualTustistView: View {
 	var body: some View {
 		NavigationView {
 			GeometryReader { proxy in
-				Map(coordinateRegion: $mapRegion, annotationItems: pins) { location in
+				
+				Map(coordinateRegion: $mapRegion,
+					annotationItems: viewModel.pins) { location in
 					MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
 						NavigationLink {
 							Text(location.debugDescription)
@@ -57,40 +49,63 @@ struct VirtualTustistView: View {
 								let _ = UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
 								/// get the new coordinates
 								longPressLocation = drag?.location ?? .zero
-								mapInitialPosition = CLLocationCoordinate2D(latitude: longPressLocation.x, longitude: longPressLocation.y)
+								fromPointsToCoordinates(at: longPressLocation, for: proxy.size)
+								//viewModel.setMapRegion(initialLocation: mapInitialPosition)
 								/// add new location
 								viewModel.dataControllerService.performCoreDataOperation(persistentContainer: viewModel.container, dataType: .pin, operation: .add, coordinates: (mapInitialPosition.latitude, mapInitialPosition.longitude), imageData: nil)
 								/// fetch new data
-								do {
-									try viewModel.fetchData()
-									print(viewModel.dataControllerService.pins?.count ?? 0)
-								} catch {
-									showError.toggle()
-									print(error.localizedDescription)
-								}
+								fetchNewData()
 							default:
 								break
 							}
 						})
 				.highPriorityGesture(DragGesture(minimumDistance: 10))
-//				.onLongPressGesture {
-//					mapInitialPosition = CLLocationCoordinate2D(latitude: 51.501, longitude: -0.141)
-//					// append the new location
-//					viewModel.dataControllerService.performCoreDataOperation(persistentContainer: viewModel.container, dataType: .pin, operation: .add, coordinates: (mapInitialPosition.latitude, mapInitialPosition.longitude), imageData: nil)
-//					do {
-//						try viewModel.fetchData()
-//						print(viewModel.dataControllerService.pins?.count ?? 0)
-//					} catch {
-//						showError.toggle()
-//						print(error.localizedDescription)
-//					}
-//				}
 				.navigationTitle("Virtual Turist")
 			}
+		}
+		.onAppear {
+			/// fetch data on appear
+			fetchNewData()
+			updateMapRegion(lat: viewModel.pins.last?.latitude ?? 51.5, long: viewModel.pins.last?.longitude ?? -0.12)
 		}
 		.alert(isPresented: $showError) {
 			Alert(title: Text("Errot"), message: Text("Error placing a new pin"))
 		}
+	}
+	
+	//MARK: - Helpers
+	func fetchNewData() {
+		do {
+			try viewModel.fetchData()
+			print(viewModel.pins.count)
+		} catch {
+			showError.toggle()
+			print(error.localizedDescription)
+		}
+	}
+	
+	/// From CGPoint to CLLocationCoordinate2D
+	func fromPointsToCoordinates(at point: CGPoint, for mapSize: CGSize)  {
+		
+		let latidute = mapRegion.center.latitude
+		let longitude = mapRegion.center.longitude
+
+		let mapCenter = CGPoint(x: mapSize.width/2, y: mapSize.height/2)
+
+		// X coordinate
+		let xValue = (point.x - mapCenter.x) / mapCenter.x
+		let xSpan = xValue * mapRegion.span.longitudeDelta/2
+
+		// Y coordinate
+		let yValue = (point.y - mapCenter.y) / mapCenter.y
+		let ySpan = yValue * mapRegion.span.latitudeDelta/2
+
+		mapInitialPosition = CLLocationCoordinate2D(latitude: latidute - ySpan, longitude: longitude * xSpan)
+		updateMapRegion(lat: mapInitialPosition.latitude, long: mapInitialPosition.longitude)
+	}
+	
+	func updateMapRegion(lat: Double, long: Double) {
+		mapRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: lat, longitude: long), span: mapSpan)
 	}
 }
 
