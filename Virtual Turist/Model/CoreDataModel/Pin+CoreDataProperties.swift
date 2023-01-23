@@ -17,10 +17,10 @@ extension Pin {
     }
 
     @NSManaged public var creationDate: Date?
+    @NSManaged public var fullAddress: String?
     @NSManaged public var id: String?
     @NSManaged public var latitude: Double
     @NSManaged public var longitude: Double
-    @NSManaged public var fullAddress: String?
     @NSManaged public var photos: NSSet?
 
 }
