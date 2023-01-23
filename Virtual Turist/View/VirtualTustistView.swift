@@ -29,7 +29,8 @@ struct VirtualTustistView: View {
 					annotationItems: viewModel.pins) { location in
 					MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
 						NavigationLink {
-							Text(location.fullAddress ?? "Unknown")
+							PictureCollectionView(searchTerm: Binding<String>(
+							get: { location.fullAddress ?? "Unknown" }, set: { _ in }))
 						} label: {
 							Image(systemName: "mappin")
 								.font(.title)
@@ -129,7 +130,6 @@ struct VirtualTustistView: View {
 				showError = true
 			}
 		} else {
-			print("Invalid Region".capitalized)
 			showError = true
 		}
 	}

@@ -8,6 +8,7 @@
 import CoreData
 import Foundation
 
+@MainActor
 class DataControllerViewModel: ObservableObject {
 	let dataControllerService: DataControllerService
 	let container: NSPersistentContainer
