@@ -30,7 +30,7 @@ class FlickerViewModel: ObservableObject {
 	
 	func getPictures(text: String) async throws {
 		do {
-			let url = try flickerService.createFlickerURL(endpointURL: Endpoint.getPicturesByText.rawValue,
+			let url = try flickerService.createFlickerSearchURL(endpointURL: Endpoint.getPicturesByText.rawValue,
 													  method: ApiMethod.search.rawValue,
 													  apiKey: FVM.apiKey,
 													  text: text,

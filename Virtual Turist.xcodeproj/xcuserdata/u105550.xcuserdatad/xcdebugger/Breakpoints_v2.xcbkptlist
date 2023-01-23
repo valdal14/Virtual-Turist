@@ -490,9 +490,9 @@
             filePath = "Virtual Turist/Service/FlickerServicing.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
-            landmarkName = "createFlickerURL(endpointURL:method:apiKey:text:maxPictures:)"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "createFlickerSearchURL(endpointURL:method:apiKey:text:maxPictures:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -24,3 +24,16 @@ struct Picture: Codable, Identifiable {
 	let owner: String
 	let ispublic: Int
 }
+
+struct PictureSize: Codable {
+	let sizes: Sizes
+}
+
+struct Sizes: Codable {
+	let size: [PictureURL]
+}
+
+struct PictureURL: Codable {
+	let label: String
+	let source: String
+}

@@ -32,7 +32,7 @@ final class Virtual_TuristTests: XCTestCase {
 	func test_FlickerServiceURLDoesNotThrow() throws {
 		let sut = FlickerService()
 		
-		XCTAssertNoThrow(try sut.createFlickerURL(endpointURL: "https://api.flickr.com/services/rest/?method=",
+		XCTAssertNoThrow(try sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/?method=",
 												  method: "flickr.photos.search",
 										 apiKey: "123456",
 										 text: "dog",
@@ -41,7 +41,7 @@ final class Virtual_TuristTests: XCTestCase {
 	
 	func test_FlickerServiceProducedValidURLString() throws {
 		let sut = FlickerService()
-		let url = try? sut.createFlickerURL(endpointURL: "https://api.flickr.com/services/rest/?method=",
+		let url = try? sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/?method=",
 									   method: "flickr.photos.search",
 									   apiKey: "123456",
 									   text: "dog",

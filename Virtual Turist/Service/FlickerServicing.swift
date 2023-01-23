@@ -6,9 +6,11 @@
 //
 
 import Foundation
+// https://api.flickr.com/services/rest/?method=flickr.photos.getSizes&api_key=c110cf234c60e55ff8733bc3a1afd72f&photo_id=52644112874&format=json&nojsoncallback=1
 
 protocol FlickerServicing {
-	func createFlickerURL(endpointURL: String, method: String, apiKey: String, text: String, maxPictures: Int) throws -> URL?
+	func createFlickerSearchURL(endpointURL: String, method: String, apiKey: String, text: String, maxPictures: Int) throws -> URL?
+	func createFlickerGetSizeURL(endpointURL: String, method: String, apiKey: String) throws -> URL?
 	func fetchPicture(searchTerm: String, url: URL) async throws -> [Picture]
 }
 
@@ -17,9 +19,15 @@ enum FlickerError: Error {
 }
 
 class FlickerService: FlickerServicing {
-	func createFlickerURL(endpointURL: String, method: String, apiKey: String, text: String, maxPictures: Int) throws -> URL? {
+	
+	func createFlickerGetSizeURL(endpointURL: String, method: String, apiKey: String) throws -> URL? {
+		let stringURL = "\(endpointURL)?method=\(method)&api_key=\(apiKey)&format=json&nojsoncallback=1"
+		return URL(string: stringURL) ?? nil
+	}
+	
+	func createFlickerSearchURL(endpointURL: String, method: String, apiKey: String, text: String, maxPictures: Int) throws -> URL? {
 		let searchTerm = text.replacingOccurrences(of: " ", with: "%20")
-		let stringURL = "\(endpointURL)?method=\(method)&pi_key=\(apiKey)&text=\(searchTerm)&per_page=\(maxPictures)&format=json&nojsoncallback=1"
+		let stringURL = "\(endpointURL)?method=\(method)&api_key=\(apiKey)&text=\(searchTerm)&per_page=\(maxPictures)&format=json&nojsoncallback=1"
 		return URL(string: stringURL) ?? nil
 	}
 	
@@ -51,6 +59,5 @@ class FlickerService: FlickerServicing {
 		default:
 			throw FlickerError.badRequest
 		}
-		
 	}
 }
