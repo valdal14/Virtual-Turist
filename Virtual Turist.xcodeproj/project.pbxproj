@@ -11,10 +11,10 @@
 		016724FF297D27E2004F335E /* TuristMapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 016724FE297D27E2004F335E /* TuristMapAnnotationView.swift */; };
 		01672505297D2F6E004F335E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01672504297D2F6E004F335E /* MapView.swift */; };
 		0167250E297D8906004F335E /* Virtual_TuristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0167250D297D8906004F335E /* Virtual_TuristTests.swift */; };
-		01672518297D8F37004F335E /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01672514297D8F37004F335E /* Pin+CoreDataClass.swift */; };
-		01672519297D8F37004F335E /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01672515297D8F37004F335E /* Pin+CoreDataProperties.swift */; };
-		0167251A297D8F37004F335E /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01672516297D8F37004F335E /* Photo+CoreDataClass.swift */; };
-		0167251B297D8F37004F335E /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01672517297D8F37004F335E /* Photo+CoreDataProperties.swift */; };
+		01AB4BCD297E74C200DC244D /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BC9297E74C200DC244D /* Pin+CoreDataClass.swift */; };
+		01AB4BCE297E74C200DC244D /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BCA297E74C200DC244D /* Pin+CoreDataProperties.swift */; };
+		01AB4BCF297E74C200DC244D /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BCB297E74C200DC244D /* Photo+CoreDataClass.swift */; };
+		01AB4BD0297E74C200DC244D /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BCC297E74C200DC244D /* Photo+CoreDataProperties.swift */; };
 		01E92486297C29D200432899 /* Virtual_TuristApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E92485297C29D200432899 /* Virtual_TuristApp.swift */; };
 		01E9248A297C29D300432899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01E92489297C29D300432899 /* Assets.xcassets */; };
 		01E9248D297C29D300432899 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01E9248C297C29D300432899 /* Preview Assets.xcassets */; };
@@ -40,10 +40,10 @@
 		01672504297D2F6E004F335E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		0167250B297D8906004F335E /* Virtual TuristTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual TuristTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0167250D297D8906004F335E /* Virtual_TuristTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TuristTests.swift; sourceTree = "<group>"; };
-		01672514297D8F37004F335E /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01672515297D8F37004F335E /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		01672516297D8F37004F335E /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01672517297D8F37004F335E /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01AB4BC9297E74C200DC244D /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01AB4BCA297E74C200DC244D /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01AB4BCB297E74C200DC244D /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01AB4BCC297E74C200DC244D /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		01E92482297C29D200432899 /* Virtual Turist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Turist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01E92485297C29D200432899 /* Virtual_TuristApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TuristApp.swift; sourceTree = "<group>"; };
 		01E92489297C29D300432899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -166,10 +166,10 @@
 		01E924D0297C33B600432899 /* CoreDataModel */ = {
 			isa = PBXGroup;
 			children = (
-				01672514297D8F37004F335E /* Pin+CoreDataClass.swift */,
-				01672515297D8F37004F335E /* Pin+CoreDataProperties.swift */,
-				01672516297D8F37004F335E /* Photo+CoreDataClass.swift */,
-				01672517297D8F37004F335E /* Photo+CoreDataProperties.swift */,
+				01AB4BC9297E74C200DC244D /* Pin+CoreDataClass.swift */,
+				01AB4BCA297E74C200DC244D /* Pin+CoreDataProperties.swift */,
+				01AB4BCB297E74C200DC244D /* Photo+CoreDataClass.swift */,
+				01AB4BCC297E74C200DC244D /* Photo+CoreDataProperties.swift */,
 				01E924B4297C2A5F00432899 /* VirtualTuristModel.xcdatamodeld */,
 			);
 			path = CoreDataModel;
@@ -283,13 +283,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01672518297D8F37004F335E /* Pin+CoreDataClass.swift in Sources */,
-				0167251A297D8F37004F335E /* Photo+CoreDataClass.swift in Sources */,
+				01AB4BCD297E74C200DC244D /* Pin+CoreDataClass.swift in Sources */,
+				01AB4BCF297E74C200DC244D /* Photo+CoreDataClass.swift in Sources */,
 				01E924C6297C2C9A00432899 /* DataControllerViewModel.swift in Sources */,
 				01672505297D2F6E004F335E /* MapView.swift in Sources */,
-				01672519297D8F37004F335E /* Pin+CoreDataProperties.swift in Sources */,
+				01AB4BCE297E74C200DC244D /* Pin+CoreDataProperties.swift in Sources */,
 				01E924C4297C2B7000432899 /* DataServicing.swift in Sources */,
-				0167251B297D8F37004F335E /* Photo+CoreDataProperties.swift in Sources */,
+				01AB4BD0297E74C200DC244D /* Photo+CoreDataProperties.swift in Sources */,
 				01E924B6297C2A5F00432899 /* VirtualTuristModel.xcdatamodeld in Sources */,
 				01E924D5297C34C400432899 /* VirtualTustistView.swift in Sources */,
 				01E92486297C29D200432899 /* Virtual_TuristApp.swift in Sources */,

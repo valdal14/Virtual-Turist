@@ -20,16 +20,16 @@ struct VirtualTustistView: View {
 	
 	@State private var showError = false
 	@State var longPressLocation = CGPoint.zero
+	@State var fullAddress = ""
 	
 	var body: some View {
 		NavigationView {
 			GeometryReader { proxy in
-				
 				Map(coordinateRegion: $mapRegion,
 					annotationItems: viewModel.pins) { location in
 					MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
 						NavigationLink {
-							Text(location.debugDescription)
+							Text(fullAddress)
 						} label: {
 							Image(systemName: "mappin")
 								.font(.title)
@@ -45,16 +45,17 @@ struct VirtualTustistView: View {
 						.onEnded { gestureValues in
 							switch gestureValues {
 							case .second(true, let drag):
-								/// give a client an aptive feedback
-								let _ = UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-								/// get the new coordinates
-								longPressLocation = drag?.location ?? .zero
-								fromPointsToCoordinates(at: longPressLocation, for: proxy.size)
-								//viewModel.setMapRegion(initialLocation: mapInitialPosition)
-								/// add new location
-								viewModel.dataControllerService.performCoreDataOperation(persistentContainer: viewModel.container, dataType: .pin, operation: .add, coordinates: (mapInitialPosition.latitude, mapInitialPosition.longitude), imageData: nil)
-								/// fetch new data
-								fetchNewData()
+								if !showError {
+									/// give a client an aptive feedback
+									let _ = UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+									/// get the new coordinates
+									longPressLocation = drag?.location ?? .zero
+									fromPointsToCoordinates(at: longPressLocation, for: proxy.size)
+									/// add new location
+									viewModel.dataControllerService.performCoreDataOperation(persistentContainer: viewModel.container, dataType: .pin, operation: .add, coordinates: (mapInitialPosition.latitude, mapInitialPosition.longitude), address: fullAddress, imageData: nil)
+									/// fetch new data
+									fetchNewData()
+								}
 							default:
 								break
 							}
@@ -102,6 +103,21 @@ struct VirtualTustistView: View {
 
 		mapInitialPosition = CLLocationCoordinate2D(latitude: latidute - ySpan, longitude: longitude * xSpan)
 		updateMapRegion(lat: mapInitialPosition.latitude, long: mapInitialPosition.longitude)
+		let newLocation = CLLocation(latitude: mapInitialPosition.latitude, longitude: mapInitialPosition.longitude)
+		/// get the address
+		let geoCoder = CLGeocoder()
+		geoCoder.reverseGeocodeLocation(newLocation) { placemarks, error in
+			guard let placemarks = placemarks, let placemark = placemarks.first else {
+				showError.toggle()
+				return
+			}
+			if let city = placemark.locality, let country = placemark.country {
+				fullAddress = "\(city), \(country)"
+			} else {
+				showError.toggle()
+			}
+			
+		}
 	}
 	
 	func updateMapRegion(lat: Double, long: Double) {
