@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+import UIKit
 
 @MainActor
 class FlickerViewModel: ObservableObject {
@@ -13,10 +15,11 @@ class FlickerViewModel: ObservableObject {
 	private let flickerService: FlickerService
 	private static let apiKey = "c110cf234c60e55ff8733bc3a1afd72f"
 	private static let maxSize = 15
-	@Published private(set) var pictures: [Picture] = []
-	@Published private(set) var pictureURL: [PictureURL] = []
+	private var pictures: [Picture] = []
+	private var pictureURL: [PictureURL] = []
 	@Published var urls: [URL] = []
 	@Published private(set) var apiError: Bool = false
+	@Published private(set) var donwloadCompled: Bool = false
 	
 	enum Endpoint: String {
 		case getPicturesByText = "https://api.flickr.com/services/rest/"
@@ -30,6 +33,8 @@ class FlickerViewModel: ObservableObject {
 	init(flickerService: FlickerService){
 		self.flickerService = flickerService
 	}
+	
+	//MARK: - Helper method to inject data to the flickerService
 	
 	/// Get photos information
 	func getPicturesFromFlickerService(text: String) async throws {
@@ -76,6 +81,7 @@ class FlickerViewModel: ObservableObject {
 						}
 					}
 				}
+				donwloadCompled = true
 			} catch {
 				apiError = true
 				print(error.localizedDescription)
@@ -98,6 +104,18 @@ class FlickerViewModel: ObservableObject {
 			apiError = true
 			print(error.localizedDescription)
 			throw FlickerError.badRequest
+		}
+	}
+	
+	//MARK: - Core data helper methods
+	func saveImages(img: Image, pin: Pin) {
+		/// convert the Image into a UIImage
+		let renderer = ImageRenderer(content: img)
+		if let uiImage = renderer.uiImage {
+			// conver the image into binary data
+			let imageData = uiImage.pngData()
+			print(pin.fullAddress)
+			print(imageData)
 		}
 	}
 }

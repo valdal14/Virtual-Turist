@@ -26,11 +26,12 @@ struct VirtualTustistView: View {
 		NavigationView {
 			GeometryReader { proxy in
 				Map(coordinateRegion: $mapRegion,
-					annotationItems: viewModel.pins) { location in
-					MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
+					annotationItems: viewModel.pins) { pin in
+					MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)) {
 						NavigationLink {
 							PhotoAlbumView(searchTerm: Binding<String>(
-							get: { location.fullAddress ?? "Unknown" }, set: { _ in }))
+								get: { pin.fullAddress ?? "Unknown" }, set: { _ in }), selectedPing: Binding<Pin>(
+								get: { pin }, set: { _ in }))
 						} label: {
 							Image(systemName: "mappin")
 								.font(.title)
