@@ -33,7 +33,12 @@ struct Sizes: Codable {
 	let size: [PictureURL]
 }
 
-struct PictureURL: Codable {
+struct PictureURL: Codable, Hashable {
 	let label: String
 	let source: String
+	
+	func hash(into hasher: inout Hasher) {
+		hasher.combine(label)
+		hasher.combine(source)
+	}
 }

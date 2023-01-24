@@ -412,9 +412,9 @@
             filePath = "Virtual Turist/ViewModel/FlickerViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "getPictures(text:)"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "getPicturesFromFlickerService(text:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -490,8 +490,8 @@
             filePath = "Virtual Turist/Service/FlickerServicing.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
             landmarkName = "createFlickerSearchURL(endpointURL:method:apiKey:text:maxPictures:)"
             landmarkType = "7">
          </BreakpointContent>

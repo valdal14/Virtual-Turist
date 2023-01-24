@@ -17,8 +17,8 @@
 		01AB4BDF297EBB9000DC244D /* FlickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BDD297EBB9000DC244D /* FlickerModel.swift */; };
 		01AB4BE1297EBE4D00DC244D /* FlickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BE0297EBE4D00DC244D /* FlickerViewModel.swift */; };
 		01AB4BE2297EBE4D00DC244D /* FlickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BE0297EBE4D00DC244D /* FlickerViewModel.swift */; };
-		01AB4BE4297ECBA000DC244D /* PictureCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BE3297ECBA000DC244D /* PictureCollectionView.swift */; };
-		01AB4BE5297ECBA000DC244D /* PictureCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BE3297ECBA000DC244D /* PictureCollectionView.swift */; };
+		01AB4BE4297ECBA000DC244D /* PhotoAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BE3297ECBA000DC244D /* PhotoAlbumView.swift */; };
+		01AB4BE5297ECBA000DC244D /* PhotoAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01AB4BE3297ECBA000DC244D /* PhotoAlbumView.swift */; };
 		01E92486297C29D200432899 /* Virtual_TuristApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E92485297C29D200432899 /* Virtual_TuristApp.swift */; };
 		01E9248A297C29D300432899 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01E92489297C29D300432899 /* Assets.xcassets */; };
 		01E9248D297C29D300432899 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 01E9248C297C29D300432899 /* Preview Assets.xcassets */; };
@@ -48,7 +48,7 @@
 		01AB4BD8297EAF2900DC244D /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		01AB4BDD297EBB9000DC244D /* FlickerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickerModel.swift; sourceTree = "<group>"; };
 		01AB4BE0297EBE4D00DC244D /* FlickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickerViewModel.swift; sourceTree = "<group>"; };
-		01AB4BE3297ECBA000DC244D /* PictureCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureCollectionView.swift; sourceTree = "<group>"; };
+		01AB4BE3297ECBA000DC244D /* PhotoAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumView.swift; sourceTree = "<group>"; };
 		01E92482297C29D200432899 /* Virtual Turist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Turist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01E92485297C29D200432899 /* Virtual_TuristApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TuristApp.swift; sourceTree = "<group>"; };
 		01E92489297C29D300432899 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				01E924D4297C34C400432899 /* VirtualTustistView.swift */,
-				01AB4BE3297ECBA000DC244D /* PictureCollectionView.swift */,
+				01AB4BE3297ECBA000DC244D /* PhotoAlbumView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -274,7 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				01AB4BE2297EBE4D00DC244D /* FlickerViewModel.swift in Sources */,
-				01AB4BE5297ECBA000DC244D /* PictureCollectionView.swift in Sources */,
+				01AB4BE5297ECBA000DC244D /* PhotoAlbumView.swift in Sources */,
 				01AB4BDF297EBB9000DC244D /* FlickerModel.swift in Sources */,
 				0167250E297D8906004F335E /* Virtual_TuristTests.swift in Sources */,
 			);
@@ -288,7 +288,7 @@
 				01AB4BDE297EBB9000DC244D /* FlickerModel.swift in Sources */,
 				01AB4BD2297E78E500DC244D /* FlickerServicing.swift in Sources */,
 				01AB4BD9297EAF2900DC244D /* Photo+CoreDataClass.swift in Sources */,
-				01AB4BE4297ECBA000DC244D /* PictureCollectionView.swift in Sources */,
+				01AB4BE4297ECBA000DC244D /* PhotoAlbumView.swift in Sources */,
 				01AB4BDC297EAF2900DC244D /* Pin+CoreDataProperties.swift in Sources */,
 				01E924C6297C2C9A00432899 /* DataControllerViewModel.swift in Sources */,
 				01E924C4297C2B7000432899 /* DataServicing.swift in Sources */,

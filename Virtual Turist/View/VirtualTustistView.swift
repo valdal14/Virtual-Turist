@@ -29,7 +29,7 @@ struct VirtualTustistView: View {
 					annotationItems: viewModel.pins) { location in
 					MapAnnotation(coordinate: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)) {
 						NavigationLink {
-							PictureCollectionView(searchTerm: Binding<String>(
+							PhotoAlbumView(searchTerm: Binding<String>(
 							get: { location.fullAddress ?? "Unknown" }, set: { _ in }))
 						} label: {
 							Image(systemName: "mappin")
