@@ -8,7 +8,6 @@
 import CoreData
 import Foundation
 
-@MainActor
 class DataControllerViewModel: ObservableObject {
 	let dataControllerService: DataControllerService
 	let container: NSPersistentContainer
@@ -35,6 +34,15 @@ class DataControllerViewModel: ObservableObject {
 		}
 		
 		self.container.viewContext.automaticallyMergesChangesFromParent = true
+	}
+	
+	func savePin(coordinates: (Double, Double), address: String) {
+		dataControllerService.performCoreDataOperation(persistentContainer: container,
+													   dataType: .pin,
+													   operation: .add,
+													   coordinates: coordinates,
+													   address: address,
+													   imageData: nil)
 	}
 	
 	func fetchData() throws {
