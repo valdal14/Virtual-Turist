@@ -5,25 +5,33 @@
 //  Created by Valerio D'ALESSIO on 25/1/23.
 //
 
+import MapKit
 import UIKit
+
 
 class PhotoViewController: UIViewController {
 
-    override func viewDidLoad() {
+	var selectedPinAnnotation: MKAnnotation?
+	
+	@IBOutlet weak var photoMap: MKMapView!
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+		setupPhotoMap(pin: selectedPinAnnotation)
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+	
+	func setupPhotoMap(pin: MKAnnotation?){
+		if let pin = pin {
+			let selectedPinCoordinates = CLLocationCoordinate2D(latitude: pin.coordinate.latitude, longitude: pin.coordinate.longitude)
+			let photoMapRegion = MKCoordinateRegion(center: selectedPinCoordinates, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+			/// set the map region
+			photoMap.setRegion(photoMapRegion, animated: true)
+			photoMap.addAnnotation(pin)
+			DispatchQueue.main.async {
+				self.photoMap.reloadInputViews()
+			}
+		} else {
+			showAlert(message: .photoMapNotInitialized, viewController: self, completion: nil)
+		}
+	}
 }

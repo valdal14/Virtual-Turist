@@ -96,8 +96,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 			/// toggle the long gesture again once we saved the new location
 			self.longPressActive.toggle()
 		} else {
-			//TODO
-			print("Invalid annotation")
+			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
 	}
 	
@@ -111,9 +110,11 @@ extension MapViewController: MKMapViewDelegate {
 		if let annotationTitle = annotation.title, let annotationAddress = annotationTitle {
 			print((annotation.coordinate.latitude, annotation.coordinate.longitude))
 			print(annotationAddress)
+			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
+			photoMapVC.selectedPinAnnotation = annotation
+			navigationController?.show(photoMapVC, sender: self)
 		} else {
-			//TODO
-			print("Invalid annotation")
+			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
 	}
 	

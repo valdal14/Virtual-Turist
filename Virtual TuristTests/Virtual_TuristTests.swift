@@ -32,7 +32,7 @@ final class Virtual_TuristTests: XCTestCase {
 	func test_FlickerServiceURLDoesNotThrow() throws {
 		let sut = FlickerService()
 		
-		XCTAssertNoThrow(try sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/?method=",
+		XCTAssertNoThrow(try sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/",
 												  method: "flickr.photos.search",
 										 apiKey: "123456",
 										 text: "dog",
@@ -41,7 +41,7 @@ final class Virtual_TuristTests: XCTestCase {
 	
 	func test_FlickerServiceProducedValidURLString() throws {
 		let sut = FlickerService()
-		let url = try? sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/?method=",
+		let url = try? sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/",
 									   method: "flickr.photos.search",
 									   apiKey: "123456",
 									   text: "dog",
@@ -50,6 +50,16 @@ final class Virtual_TuristTests: XCTestCase {
 		let urlString = url?.absoluteString
 		let excpectedUrlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=123456&text=dog&per_page=5&format=json&nojsoncallback=1"
 		XCTAssertEqual(urlString, excpectedUrlString)
+	}
+	
+	func test_ShowAlertFunction() {
+		let sut = UIViewController()
+		var alertTitle = ""
+		showAlert(message: UIError.invalidAnnotation, viewController: sut) { action in
+			alertTitle += action.title ?? "Unkown"
+			XCTAssertEqual(alertTitle, "Virtual Turist Error")
+		}
+		
 	}
 	
     override func setUpWithError() throws {
