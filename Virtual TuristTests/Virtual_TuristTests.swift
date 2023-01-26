@@ -62,6 +62,14 @@ final class Virtual_TuristTests: XCTestCase {
 		
 	}
 	
+	func test_fetchSelectedPin_FoundPin() {
+		let sut = DataControllerViewModel(dataControllerService: DataControllerService(), containerName: "VirtualTuristModel")
+		let newPin = Pin(context: sut.container.viewContext)
+		sut.pins.append(newPin)
+		let newSelectedPin = sut.fetchSelectedPin(coordinates: (0.0, 0.0))
+		XCTAssertEqual(newPin, newSelectedPin)
+	}
+	
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }

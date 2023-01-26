@@ -11,27 +11,34 @@ import UIKit
 
 class PhotoViewController: UIViewController {
 
-	var selectedPinAnnotation: MKAnnotation?
+	var selectedPinObject: Pin?
 	
 	@IBOutlet weak var photoMap: MKMapView!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		setupPhotoMap(pin: selectedPinAnnotation)
+		setupPhotoMap(pin: selectedPinObject)
     }
 	
-	func setupPhotoMap(pin: MKAnnotation?){
+	func setupPhotoMap(pin: Pin?){
 		if let pin = pin {
-			let selectedPinCoordinates = CLLocationCoordinate2D(latitude: pin.coordinate.latitude, longitude: pin.coordinate.longitude)
+			let selectedPinCoordinates = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
 			let photoMapRegion = MKCoordinateRegion(center: selectedPinCoordinates, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
 			/// set the map region
 			photoMap.setRegion(photoMapRegion, animated: true)
-			photoMap.addAnnotation(pin)
+			/// create a new annotation
+			let newPinAnnotation = MKPointAnnotation()
+			newPinAnnotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
+			newPinAnnotation.title = pin.fullAddress
+			photoMap.addAnnotation(newPinAnnotation)
 			DispatchQueue.main.async {
 				self.photoMap.reloadInputViews()
 			}
 		} else {
-			showAlert(message: .photoMapNotInitialized, viewController: self, completion: nil)
+			/// show error message and pops back to MapViewController
+			showAlert(message: .photoMapNotInitialized, viewController: self) { _ in
+				self.navigationController?.popViewController(animated: true)
+			}
 		}
 	}
 }

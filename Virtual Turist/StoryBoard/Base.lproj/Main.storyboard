@@ -52,7 +52,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAo-Aa-fBO">
-                                <rect key="frame" x="0.0" y="0.0" width="393" height="150"/>
+                                <rect key="frame" x="0.0" y="59" width="393" height="150"/>
                                 <standardMapConfiguration key="preferredConfiguration"/>
                                 <connections>
                                     <outlet property="delegate" destination="9yu-ai-Lox" id="ojz-F6-b1m"/>
@@ -62,10 +62,10 @@
                         <viewLayoutGuide key="safeArea" id="bQt-nd-jON"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="bQt-nd-jON" firstAttribute="top" secondItem="NAo-Aa-fBO" secondAttribute="top" constant="59" id="3uS-65-FNF"/>
-                            <constraint firstItem="bQt-nd-jON" firstAttribute="bottom" secondItem="NAo-Aa-fBO" secondAttribute="bottom" constant="668" id="Ozy-1M-GFp"/>
-                            <constraint firstItem="NAo-Aa-fBO" firstAttribute="leading" secondItem="bQt-nd-jON" secondAttribute="leading" id="hXW-rq-WsD"/>
-                            <constraint firstItem="bQt-nd-jON" firstAttribute="trailing" secondItem="NAo-Aa-fBO" secondAttribute="trailing" id="xmh-Ke-tZ4"/>
+                            <constraint firstItem="bQt-nd-jON" firstAttribute="trailing" secondItem="NAo-Aa-fBO" secondAttribute="trailing" id="ZcN-Fb-uoB"/>
+                            <constraint firstItem="bQt-nd-jON" firstAttribute="bottom" secondItem="NAo-Aa-fBO" secondAttribute="bottom" constant="609" id="hkK-AO-a1L"/>
+                            <constraint firstItem="NAo-Aa-fBO" firstAttribute="leading" secondItem="bQt-nd-jON" secondAttribute="leading" id="rND-Y6-Tj8"/>
+                            <constraint firstItem="NAo-Aa-fBO" firstAttribute="top" secondItem="bQt-nd-jON" secondAttribute="top" id="s6b-AP-dpk"/>
                         </constraints>
                     </view>
                     <connections>

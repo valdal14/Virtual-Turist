@@ -8,10 +8,10 @@
 import CoreData
 import Foundation
 
-class DataControllerViewModel: ObservableObject {
+class DataControllerViewModel {
 	let dataControllerService: DataControllerService
 	let container: NSPersistentContainer
-	@Published var pins: [Pin] = []
+	var pins: [Pin] = []
 	
 	init(dataControllerService: DataControllerService, containerName: String) {
 		self.dataControllerService = dataControllerService
@@ -36,6 +36,7 @@ class DataControllerViewModel: ObservableObject {
 		self.container.viewContext.automaticallyMergesChangesFromParent = true
 	}
 	
+	//MARK: - Data Helper methods
 	func savePin(coordinates: (Double, Double), address: String) {
 		dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .pin,
@@ -48,5 +49,14 @@ class DataControllerViewModel: ObservableObject {
 	func fetchData() throws {
 		let request = Pin.fetchRequest() as NSFetchRequest<Pin>
 		pins = try self.dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
+	}
+	
+	
+	func fetchSelectedPin(coordinates: (Double, Double)) -> Pin? {
+		if let foundPin = pins.filter({ $0.latitude == coordinates.0 && $0.longitude == coordinates.1}).first {
+			return foundPin
+		} else {
+			return nil
+		}
 	}
 }

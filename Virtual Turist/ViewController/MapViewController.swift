@@ -51,25 +51,28 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 			let coordinate = map.convert(positionOnTheMap, toCoordinateFrom: map)
 			/// get the CLLocation from the coordinates
 			let newPin = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-			let geoCoder = CLGeocoder()
 			/// reverse geocode location to get the country and city
-			geoCoder.reverseGeocodeLocation(newPin) { placemarks, error in
-				if let placemark = placemarks?.first {
-					if let country = placemark.country, let city = placemark.locality {
-						/// add new annotation
-						let annotation = MKPointAnnotation()
-						annotation.coordinate = coordinate
-						annotation.title = "\(city) \(country)"
-						self.map.addAnnotation(annotation)
-						/// save the new pin
-						self.saveNewPin(annotation: annotation)
-					}
+			performReverseGeoLocation(newPin: newPin, coordinate: coordinate)
+		}
+	}
+	
+	//MARK: - Helper functions
+	private func performReverseGeoLocation(newPin: CLLocation, coordinate: CLLocationCoordinate2D) {
+		CLGeocoder().reverseGeocodeLocation(newPin) { placemarks, error in
+			if let placemark = placemarks?.first {
+				if let country = placemark.country, let city = placemark.locality {
+					/// add new annotation
+					let annotation = MKPointAnnotation()
+					annotation.coordinate = coordinate
+					annotation.title = "\(city) \(country)"
+					self.map.addAnnotation(annotation)
+					/// send the pin to dataController that will interact with Core Data
+					self.passPinToDataController(annotation: annotation)
 				}
 			}
 		}
 	}
 	
-	//MARK: - Helper functions
 	private func fetchMapAnnotation() throws {
 		/// get a reference to the DataControllerViewModel
 		let dataControllerVM = appDelegate.dataControllerVM
@@ -87,7 +90,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		}
 	}
 	
-	private func saveNewPin(annotation: MKAnnotation){
+	private func passPinToDataController(annotation: MKAnnotation){
 		/// get a reference to the DataControllerViewModel
 		let dataControllerVM = appDelegate.dataControllerVM
 		if let annotationTitle = annotation.title, let annotationAddress = annotationTitle {
@@ -107,11 +110,9 @@ extension MapViewController: MKMapViewDelegate {
 	
 	/// triggered when we press an annotation, we pass the pin to the next VC
 	func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-		if let annotationTitle = annotation.title, let annotationAddress = annotationTitle {
-			print((annotation.coordinate.latitude, annotation.coordinate.longitude))
-			print(annotationAddress)
+		if let _ = annotation.title {
 			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
-			photoMapVC.selectedPinAnnotation = annotation
+			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
 			navigationController?.show(photoMapVC, sender: self)
 		} else {
 			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
