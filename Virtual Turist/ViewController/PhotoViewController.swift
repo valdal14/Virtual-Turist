@@ -110,6 +110,7 @@ extension PhotoViewController {
 					try await flickerVM.combineFetchedData(text: searchTerm)
 					/// if the download is completed we can refresh the collection view
 					/// and remove the No Image label if it is not hidden already
+					print(flickerVM.uiImageBinaryData)
 				} catch {
 					print(error.localizedDescription)
 					showAlert(message: .flickerAPIError, viewController: self) { _ in

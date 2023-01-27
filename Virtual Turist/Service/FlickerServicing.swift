@@ -14,7 +14,7 @@ protocol FlickerServicing {
 }
 
 enum FlickerError: Error {
-	case badURL, decodingError, badRequest, invalidAPIKey, serviceUnavailable, invalidMethod, URLNotFound, photoNotFound, permissionDenied
+	case badURL, decodingError, badRequest, invalidAPIKey, serviceUnavailable, invalidMethod, URLNotFound, photoNotFound, permissionDenied, invalidImage
 }
 
 class FlickerService: FlickerServicing {
@@ -41,7 +41,6 @@ class FlickerService: FlickerServicing {
 			if let decodedData = decodedData {
 				/// filtering only public pictures
 				let pictures = decodedData.photos.picture.filter { $0.ispublic == 1}
-				print(pictures)
 				return pictures
 			} else {
 				throw FlickerError.decodingError
@@ -68,7 +67,6 @@ class FlickerService: FlickerServicing {
 			let decodedData = try? JSONDecoder().decode(PictureSize.self, from: data)
 			if let decodedData = decodedData {
 				let pictureURL = decodedData.sizes.size.filter { !$0.source.isEmpty }
-				print(pictureURL)
 				return pictureURL
 			} else {
 				throw FlickerError.decodingError

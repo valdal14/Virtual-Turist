@@ -18,6 +18,7 @@ class FlickerViewModel {
 	private var pictures: [Picture] = []
 	private var pictureURL: [PictureURL] = []
 	var urls: [URL] = []
+	var uiImageBinaryData: [Data] = []
 	
 	enum Endpoint: String {
 		case getPicturesByText = "https://api.flickr.com/services/rest/"
@@ -35,7 +36,7 @@ class FlickerViewModel {
 	//MARK: - Helper method to inject data to the flickerService
 	
 	/// Get photos information
-	func getPicturesFromFlickerService(text: String) async throws {
+	private func getPicturesFromFlickerService(text: String) async throws {
 		do {
 			let url = try flickerService.createFlickerSearchURL(endpointURL: Endpoint.getPicturesByText.rawValue,
 													  method: ApiMethod.search.rawValue,
@@ -59,7 +60,7 @@ class FlickerViewModel {
 	}
 	
 	/// Get photo URLs
-	func getPhotoSizeURL(photoId: String) async throws  {
+	private func getPhotoSizeURL(photoId: String) async throws  {
 		do {
 			let url = try flickerService.createFlickerGetSizeURL(endpointURL: Endpoint.getPicturesByText.rawValue,
 																 method: ApiMethod.getSize.rawValue,
@@ -74,6 +75,7 @@ class FlickerViewModel {
 					if pic.label == defaultImageSize {
 						if let picUrl = URL(string: pic.source) {
 							urls.append(picUrl)
+							try await fetchUIImageFromURL(from: picUrl)
 						}
 					}
 				}
@@ -84,6 +86,24 @@ class FlickerViewModel {
 		} catch {
 			print(error.localizedDescription)
 			throw FlickerError.badURL
+		}
+	}
+	
+	private func fetchUIImageFromURL(from url: URL) async throws {
+		do {
+			let (data, response) = try await URLSession.shared.data(for: URLRequest(url: url))
+			let res = response as! HTTPURLResponse
+			
+			switch res.statusCode {
+			case 200:
+				uiImageBinaryData.append(data)
+			default:
+				throw FlickerError.invalidImage
+			}
+			
+		} catch {
+			print(error.localizedDescription)
+			throw FlickerError.badRequest
 		}
 	}
 	
