@@ -98,7 +98,11 @@
                                 <rect key="frame" x="0.0" y="729" width="375" height="49"/>
                                 <items>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Ecw-PB-44k"/>
-                                    <barButtonItem title="New Collection" id="oSW-OR-zUD"/>
+                                    <barButtonItem title="New Collection" id="oSW-OR-zUD">
+                                        <connections>
+                                            <action selector="newCollectionBtn:" destination="9yu-ai-Lox" id="5KA-j4-5LR"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="Egn-JQ-fPJ"/>
                                 </items>
                             </toolbar>
@@ -120,7 +124,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="collectionView" destination="UWf-VU-szq" id="Get-I1-hka"/>
                         <outlet property="photoMap" destination="NAo-Aa-fBO" id="cL6-7H-psR"/>
+                        <outlet property="toolbarButton" destination="47U-a4-LlR" id="80U-jU-bOk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="L5e-Uf-lAa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

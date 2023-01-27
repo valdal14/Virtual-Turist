@@ -13,7 +13,9 @@ class PhotoViewController: UIViewController {
 
 	var selectedPinObject: Pin?
 	
+	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var photoMap: MKMapView!
+	@IBOutlet weak var toolbarButton: UIToolbar!
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,4 +43,9 @@ class PhotoViewController: UIViewController {
 			}
 		}
 	}
+	
+	
+	@IBAction func newCollectionBtn(_ sender: Any) {
+	}
+	
 }
