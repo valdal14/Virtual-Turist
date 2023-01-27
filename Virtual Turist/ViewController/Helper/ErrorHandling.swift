@@ -13,6 +13,7 @@ typealias alertAction = ((UIAlertAction) -> Void)?
 enum UIError: String, Error {
 	case invalidAnnotation = "Cannot get the annotation information from the MAP"
 	case photoMapNotInitialized = "The Map cannot be instanciated with the given coordinates"
+	case flickerAPIError = "Cannot get images from the server"
 }
 
 func showAlert(message: UIError, viewController: UIViewController, completion: alertAction) {

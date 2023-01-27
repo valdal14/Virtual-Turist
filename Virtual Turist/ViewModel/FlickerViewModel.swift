@@ -11,14 +11,13 @@ import UIKit
 
 class FlickerViewModel {
 	typealias FVM = FlickerViewModel
+	private let defaultImageSize = "Medium"
 	private let flickerService: FlickerService
 	private static let apiKey = "c110cf234c60e55ff8733bc3a1afd72f"
 	private static let maxSize = 15
 	private var pictures: [Picture] = []
 	private var pictureURL: [PictureURL] = []
 	var urls: [URL] = []
-	private(set) var apiError: Bool = false
-	private(set) var donwloadCompled: Bool = false
 	
 	enum Endpoint: String {
 		case getPicturesByText = "https://api.flickr.com/services/rest/"
@@ -49,14 +48,12 @@ class FlickerViewModel {
 			do {
 				self.pictures = try await flickerService.fetchPicture(searchTerm: text, url: url)
 			} catch {
-				apiError = true
 				print(error.localizedDescription)
 				throw FlickerError.badRequest
 			}
 			
 		} catch let error as FlickerError {
 			print(error.localizedDescription)
-			apiError = true
 			throw FlickerError.badURL
 		}
 	}
@@ -74,21 +71,18 @@ class FlickerViewModel {
 			do {
 				let pictures = try await flickerService.fetchPictureSizes(url: url)
 				for pic in pictures {
-					if pic.label == "Medium" {
+					if pic.label == defaultImageSize {
 						if let picUrl = URL(string: pic.source) {
 							urls.append(picUrl)
 						}
 					}
 				}
-				donwloadCompled = true
 			} catch {
-				apiError = true
 				print(error.localizedDescription)
 				throw FlickerError.badRequest
 			}
 		} catch {
 			print(error.localizedDescription)
-			apiError = true
 			throw FlickerError.badURL
 		}
 	}
@@ -100,7 +94,6 @@ class FlickerViewModel {
 				try await getPhotoSizeURL(photoId: picture.id)
 			}
 		} catch {
-			apiError = true
 			print(error.localizedDescription)
 			throw FlickerError.badRequest
 		}

@@ -29,15 +29,7 @@ class PhotoViewController: UIViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		Task {
-			if let searchTerm = selectedPinObject?.fullAddress {
-				do {
-					try await flickerVM.combineFetchedData(text: searchTerm)
-				} catch {
-					print(error.localizedDescription)
-				}
-			}
-		}
+		getPhotosFromFlicker()
 	}
 	
 	func setupPhotoMap(pin: Pin?){
@@ -105,6 +97,26 @@ extension PhotoViewController {
 			label.isHidden = false
 		} else {
 			label.isHidden = true
+		}
+	}
+}
+
+//MARK: - Flicker APIs
+extension PhotoViewController {
+	func getPhotosFromFlicker() {
+		Task {
+			if let searchTerm = selectedPinObject?.fullAddress {
+				do {
+					try await flickerVM.combineFetchedData(text: searchTerm)
+					/// if the download is completed we can refresh the collection view
+					/// and remove the No Image label if it is not hidden already
+				} catch {
+					print(error.localizedDescription)
+					showAlert(message: .flickerAPIError, viewController: self) { _ in
+						self.navigationController?.popViewController(animated: true)
+					}
+				}
+			}
 		}
 	}
 }
