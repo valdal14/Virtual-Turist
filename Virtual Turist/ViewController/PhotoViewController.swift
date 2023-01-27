@@ -16,6 +16,7 @@ class PhotoViewController: UIViewController {
 	
 	var selectedPinObject: Pin?
 	var photos: [Photo] = []
+	var pictures: [UIImage] = []
 	let noImageLabel =  UILabel()
 	
 	@IBOutlet weak var collectionView: UICollectionView!
@@ -65,15 +66,15 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return 10
+		return pictures.count
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
-		/// diplay No Images if the photos array is empty
-		setupNoImagesLabel(with: noImageLabel, numberOfImage: photos.count)
+		/// diplay No Images if the pictures array is empty
+		setupNoImagesLabel(with: noImageLabel, numberOfImage: pictures.count)
 		/// setup a cell or use a placeholder
-		cell.setupCell(with: photos, indexPath: indexPath)
+		cell.setupCell(with: pictures, indexPath: indexPath)
 		return cell
 	}
 }
@@ -108,9 +109,20 @@ extension PhotoViewController {
 			if let searchTerm = selectedPinObject?.fullAddress {
 				do {
 					try await flickerVM.combineFetchedData(text: searchTerm)
-					/// if the download is completed we can refresh the collection view
-					/// and remove the No Image label if it is not hidden already
-					print(flickerVM.uiImageBinaryData)
+					/// if the download is completed I can start adding pictures to the
+					/// collectionView and remove the No Image label if it is not hidden already
+					DispatchQueue.main.async {
+						var index = 0
+						for imgData in self.flickerVM.uiImageBinaryData {
+							let img = UIImage(data: imgData)
+							let indexPath = IndexPath(row: index, section: 0)
+							if let image = img {
+								self.pictures.append(image)
+								self.collectionView.insertItems(at: [indexPath])
+								index += 1
+							}
+						}
+					}
 				} catch {
 					print(error.localizedDescription)
 					showAlert(message: .flickerAPIError, viewController: self) { _ in

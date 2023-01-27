@@ -17,7 +17,6 @@ class FlickerViewModel {
 	private static let maxSize = 15
 	private var pictures: [Picture] = []
 	private var pictureURL: [PictureURL] = []
-	var urls: [URL] = []
 	var uiImageBinaryData: [Data] = []
 	
 	enum Endpoint: String {
@@ -74,7 +73,6 @@ class FlickerViewModel {
 				for pic in pictures {
 					if pic.label == defaultImageSize {
 						if let picUrl = URL(string: pic.source) {
-							urls.append(picUrl)
 							try await fetchUIImageFromURL(from: picUrl)
 						}
 					}
