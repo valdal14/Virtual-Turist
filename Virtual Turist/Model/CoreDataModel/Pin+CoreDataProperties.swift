@@ -2,7 +2,7 @@
 //  Pin+CoreDataProperties.swift
 //  Virtual Turist
 //
-//  Created by Valerio D'ALESSIO on 23/1/23.
+//  Created by Valerio D'ALESSIO on 27/1/23.
 //
 //
 
