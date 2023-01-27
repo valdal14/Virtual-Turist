@@ -113,10 +113,25 @@ extension MapViewController: MKMapViewDelegate {
 		if let _ = annotation.title {
 			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
 			photoMapVC.dataController = appDelegate.dataControllerVM
-			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
+			/// get the in-memory pin information before passing it to the PhotoViewController
+			let newSelectedPin = Pin(context: appDelegate.dataControllerVM.container.viewContext)
+			addInfoToNewPin(with: newSelectedPin, annotation: annotation)
+			photoMapVC.selectedPinObject = newSelectedPin
 			show(photoMapVC, sender: self)
 		} else {
 			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+		}
+	}
+	
+	/// Add information to the new PIN
+	private func addInfoToNewPin(with newPin: Pin, annotation: MKAnnotation) {
+		if let pinInfo = annotation.title, let title = pinInfo {
+			newPin.id = UUID().uuidString
+			newPin.fullAddress = title
+			newPin.latitude = annotation.coordinate.latitude
+			newPin.longitude = annotation.coordinate.longitude
+		} else {
+			showAlert(message: .invalidPin, viewController: self, completion: nil)
 		}
 	}
 	

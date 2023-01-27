@@ -14,6 +14,7 @@ enum UIError: String, Error {
 	case invalidAnnotation = "Cannot get the annotation information from the MAP"
 	case photoMapNotInitialized = "The Map cannot be instanciated with the given coordinates"
 	case flickerAPIError = "Cannot get images from the server"
+	case invalidPin = "Cannot create a Map PIN"
 }
 
 func showAlert(message: UIError, viewController: UIViewController, completion: alertAction) {

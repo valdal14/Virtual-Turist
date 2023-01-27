@@ -50,13 +50,4 @@ class DataControllerViewModel {
 		let request = Pin.fetchRequest() as NSFetchRequest<Pin>
 		pins = try self.dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
 	}
-	
-	
-	func fetchSelectedPin(coordinates: (Double, Double)) -> Pin? {
-		if let foundPin = pins.filter({ $0.latitude == coordinates.0 && $0.longitude == coordinates.1}).first {
-			return foundPin
-		} else {
-			return nil
-		}
-	}
 }

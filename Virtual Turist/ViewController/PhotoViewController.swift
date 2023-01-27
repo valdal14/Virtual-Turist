@@ -25,11 +25,11 @@ class PhotoViewController: UIViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-		setupPhotoMap(pin: selectedPinObject)
     }
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
+		setupPhotoMap(pin: selectedPinObject)
 		getPhotosFromFlicker()
 	}
 	
