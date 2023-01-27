@@ -113,7 +113,7 @@ extension MapViewController: MKMapViewDelegate {
 		if let _ = annotation.title {
 			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
 			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
-			navigationController?.show(photoMapVC, sender: self)
+			show(photoMapVC, sender: self)
 		} else {
 			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
