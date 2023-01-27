@@ -12,6 +12,8 @@ import UIKit
 class PhotoViewController: UIViewController {
 
 	var selectedPinObject: Pin?
+	var photos: [Photo] = []
+	let noImageLabel =  UILabel()
 	
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var photoMap: MKMapView!
@@ -48,4 +50,44 @@ class PhotoViewController: UIViewController {
 	@IBAction func newCollectionBtn(_ sender: Any) {
 	}
 	
+}
+
+//MARK: - CollectionView Data Source
+extension PhotoViewController: UICollectionViewDataSource {
+	
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return 10
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
+		/// diplay No Images if the photos array is empty
+		setupNoImagesLabel(with: noImageLabel, numberOfImage: photos.count)
+		/// setup a cell or use a placeholder
+		cell.setupCell(with: photos, indexPath: indexPath)
+		return cell
+	}
+}
+
+//MARK: - Setup No Image label
+extension PhotoViewController {
+	
+	func setupNoImagesLabel(with label: UILabel, numberOfImage: Int){
+		if numberOfImage == 0 {
+			label.text = "No Images"
+			label.font = UIFont.systemFont(ofSize: 24)
+			label.textColor = .black
+			/// add the new label
+			view.addSubview(label)
+			label.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
+			/// constraints and placement
+			label.center = view.center
+			label.translatesAutoresizingMaskIntoConstraints = false
+			label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+			label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+			label.isHidden = false
+		} else {
+			label.isHidden = true
+		}
+	}
 }
