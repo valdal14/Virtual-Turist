@@ -11,6 +11,9 @@ import UIKit
 
 class PhotoViewController: UIViewController {
 
+	var dataController: DataControllerViewModel?
+	var flickerVM: FlickerViewModel = FlickerViewModel(flickerService: FlickerService())
+	
 	var selectedPinObject: Pin?
 	var photos: [Photo] = []
 	let noImageLabel =  UILabel()
@@ -23,6 +26,19 @@ class PhotoViewController: UIViewController {
         super.viewDidLoad()
 		setupPhotoMap(pin: selectedPinObject)
     }
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		Task {
+			if let searchTerm = selectedPinObject?.fullAddress {
+				do {
+					try await flickerVM.combineFetchedData(text: searchTerm)
+				} catch {
+					print(error.localizedDescription)
+				}
+			}
+		}
+	}
 	
 	func setupPhotoMap(pin: Pin?){
 		if let pin = pin {
@@ -48,6 +64,7 @@ class PhotoViewController: UIViewController {
 	
 	
 	@IBAction func newCollectionBtn(_ sender: Any) {
+		// check the label No Images ToDO
 	}
 	
 }

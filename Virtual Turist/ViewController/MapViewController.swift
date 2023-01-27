@@ -112,6 +112,7 @@ extension MapViewController: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
 		if let _ = annotation.title {
 			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
+			photoMapVC.dataController = appDelegate.dataControllerVM
 			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
 			show(photoMapVC, sender: self)
 		} else {

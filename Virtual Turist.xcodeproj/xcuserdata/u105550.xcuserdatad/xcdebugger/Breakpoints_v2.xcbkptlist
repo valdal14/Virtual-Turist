@@ -172,8 +172,8 @@
             filePath = "Virtual Turist/ViewController/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "mapView(_:didSelect:)"
             landmarkType = "7">
          </BreakpointContent>

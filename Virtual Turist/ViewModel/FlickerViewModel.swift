@@ -9,16 +9,16 @@ import Foundation
 import SwiftUI
 import UIKit
 
-class FlickerViewModel: ObservableObject {
+class FlickerViewModel {
 	typealias FVM = FlickerViewModel
 	private let flickerService: FlickerService
 	private static let apiKey = "c110cf234c60e55ff8733bc3a1afd72f"
 	private static let maxSize = 15
 	private var pictures: [Picture] = []
 	private var pictureURL: [PictureURL] = []
-	@Published var urls: [URL] = []
-	@Published private(set) var apiError: Bool = false
-	@Published private(set) var donwloadCompled: Bool = false
+	var urls: [URL] = []
+	private(set) var apiError: Bool = false
+	private(set) var donwloadCompled: Bool = false
 	
 	enum Endpoint: String {
 		case getPicturesByText = "https://api.flickr.com/services/rest/"
