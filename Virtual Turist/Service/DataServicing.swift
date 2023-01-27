@@ -10,7 +10,7 @@ import Foundation
 
 //MARK: - Protocol
 protocol DataServicing {
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String?, imageData: Data?)
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String?, imageData: Data?, imageName: String?)
 	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws -> [T]
 }
 
@@ -35,7 +35,7 @@ enum OperationType {
 class DataControllerService: DataServicing {
 	
 	//MARK: - DataServicing Delegatation
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String?, imageData: Data?) {
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String?, imageData: Data?, imageName: String?) {
 		let viewContext = persistentContainer.viewContext
 		
 		switch operation {
@@ -52,10 +52,19 @@ class DataControllerService: DataServicing {
 				}
 			case .photo:
 				let photo = Photo(context: viewContext)
+				photo.name = imageName
 				photo.photoData = imageData
 			}
 		case .delete:
-			break
+			if let imageName = imageName {
+				let request = Photo.fetchRequest() as NSFetchRequest<Photo>
+				request.predicate = NSPredicate(format: "name = %@", "\(imageName)")
+				let result = try? viewContext.fetch(request)
+				if let photos = result {
+					let photoToDelete = photos[0] as NSManagedObject
+					viewContext.delete(photoToDelete)
+				}
+			}
 		}
 		
 		try? saveData(context: viewContext)

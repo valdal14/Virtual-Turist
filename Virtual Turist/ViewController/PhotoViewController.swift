@@ -15,6 +15,7 @@ class PhotoViewController: UIViewController {
 	var flickerVM: FlickerViewModel = FlickerViewModel(flickerService: FlickerService())
 	
 	var selectedPinObject: Pin?
+	var selectedImageName: String = ""
 	var pictures: [UIImage] = []
 	let noImageLabel = UILabel()
 	
@@ -24,6 +25,10 @@ class PhotoViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		/// configure a swipe gesture to delete on collection view
+		let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
+		swipeGesture.direction = .left
+		collectionView.addGestureRecognizer(swipeGesture)
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -121,6 +126,13 @@ extension PhotoViewController: UICollectionViewDataSource {
 	}
 }
 
+//MARK: - CollectionView Delegation
+extension PhotoViewController: UICollectionViewDelegate {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		// TODO - Open the picture
+	}
+}
+
 //MARK: - Setup No Image label
 extension PhotoViewController {
 	
@@ -189,15 +201,64 @@ extension PhotoViewController {
 	/// Send the binary data to the dataController to perform the insert operation
 	private func passPhotosToDataController(photoData: Data){
 		if let dataControllerVM = dataControllerVM {
-			dataControllerVM.dataControllerService.performCoreDataOperation(persistentContainer: dataControllerVM.container,
-																			dataType: .photo,
-																			operation: .add,
-																			coordinates: nil,
-																			address: nil,
-																			imageData: photoData)
+			if let pin = selectedPinObject, let pinID = pin.id {
+				selectedImageName = pinID
+				dataControllerVM.dataControllerService.performCoreDataOperation(persistentContainer: dataControllerVM.container,
+																				dataType: .photo,
+																				operation: .add,
+																				coordinates: nil,
+																				address: nil,
+																				imageData: photoData,
+																				imageName: selectedImageName)
+			} else {
+				showAlert(message: .dataControllerError, viewController: self) { _ in
+					self.navigationController?.popViewController(animated: true)
+				}
+			}
+			
 		} else {
 			showAlert(message: .dataControllerError, viewController: self) { _ in
 				self.navigationController?.popViewController(animated: true)
+			}
+		}
+	}
+	
+	/// delete selected photo from memory and core data
+	private func passPhotoToDeleteToDataController(indexPath: IndexPath) {
+		if let dataControllerVM = dataControllerVM {
+			/// delete from core data
+			dataControllerVM.dataControllerService.performCoreDataOperation(persistentContainer: dataControllerVM.container,
+																			dataType: .photo,
+																			operation: .delete,
+																			coordinates: nil,
+																			address: nil,
+																			imageData: nil,
+																			imageName: selectedImageName)
+		} else {
+			showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
+		}
+	}
+	
+	@objc func handleSwipe(gesture: UISwipeGestureRecognizer) {
+		if gesture.direction == .left {
+			// set the name of the selected picture
+			if let pin = selectedPinObject, let pinID = pin.id {
+				selectedImageName = pinID
+				/// handle left swipe
+				let location = gesture.location(in: self.collectionView)
+				/// get the location
+				let indexPath = self.collectionView.indexPathForItem(at: location)
+				if let indexPath = indexPath {
+					passPhotoToDeleteToDataController(indexPath: indexPath)
+					/// remove the picture from the pictures array
+					pictures.remove(at: indexPath.row)
+					/// remove from the collection view
+					collectionView.deleteItems(at: [indexPath])
+				} else {
+					showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
+				}
+			} else {
+				showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
 			}
 		}
 	}

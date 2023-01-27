@@ -18,6 +18,7 @@ enum UIError: String, Error {
 	case errorFetchingPin = "Error while trying to fetch Map Pins from store"
 	case errorFetchingPhotos = "Error while trying to fetch Photos from store"
 	case dataControllerError = "Data controller is not responding, please try again"
+	case cannotDeleteImage = "Sorry but there was an error while deleting the picture"
 }
 
 func showAlert(message: UIError, viewController: UIViewController, completion: alertAction) {

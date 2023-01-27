@@ -95,6 +95,7 @@
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="9yu-ai-Lox" id="hxD-YK-OP6"/>
+                                    <outlet property="delegate" destination="9yu-ai-Lox" id="pBc-jE-Lhc"/>
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="47U-a4-LlR">

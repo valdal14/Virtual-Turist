@@ -24,10 +24,10 @@
 		01B38AD9298192D3005BBB0B /* DataControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AD7298192D3005BBB0B /* DataControllerViewModel.swift */; };
 		01B38ADC298193AD005BBB0B /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38ADB298193AD005BBB0B /* PhotoViewController.swift */; };
 		01B38AE52981956B005BBB0B /* Virtual_TuristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AE42981956B005BBB0B /* Virtual_TuristTests.swift */; };
-		01C4BD4D29846B3600E9EC43 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD4929846B3600E9EC43 /* Pin+CoreDataClass.swift */; };
-		01C4BD4E29846B3600E9EC43 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD4A29846B3600E9EC43 /* Pin+CoreDataProperties.swift */; };
-		01C4BD4F29846B3600E9EC43 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD4B29846B3600E9EC43 /* Photo+CoreDataClass.swift */; };
-		01C4BD5029846B3600E9EC43 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD4C29846B3600E9EC43 /* Photo+CoreDataProperties.swift */; };
+		01C4BD5529847AAD00E9EC43 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5129847AAD00E9EC43 /* Photo+CoreDataClass.swift */; };
+		01C4BD5629847AAD00E9EC43 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5229847AAD00E9EC43 /* Photo+CoreDataProperties.swift */; };
+		01C4BD5729847AAD00E9EC43 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5329847AAD00E9EC43 /* Pin+CoreDataClass.swift */; };
+		01C4BD5829847AAD00E9EC43 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5429847AAD00E9EC43 /* Pin+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,10 +60,10 @@
 		01B38ADB298193AD005BBB0B /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		01B38AE22981956B005BBB0B /* Virtual TuristTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual TuristTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01B38AE42981956B005BBB0B /* Virtual_TuristTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TuristTests.swift; sourceTree = "<group>"; };
-		01C4BD4929846B3600E9EC43 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01C4BD4A29846B3600E9EC43 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		01C4BD4B29846B3600E9EC43 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01C4BD4C29846B3600E9EC43 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01C4BD5129847AAD00E9EC43 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01C4BD5229847AAD00E9EC43 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01C4BD5329847AAD00E9EC43 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01C4BD5429847AAD00E9EC43 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,10 +138,10 @@
 		01B38ABF298192A7005BBB0B /* CoreDataModel */ = {
 			isa = PBXGroup;
 			children = (
-				01C4BD4929846B3600E9EC43 /* Pin+CoreDataClass.swift */,
-				01C4BD4A29846B3600E9EC43 /* Pin+CoreDataProperties.swift */,
-				01C4BD4B29846B3600E9EC43 /* Photo+CoreDataClass.swift */,
-				01C4BD4C29846B3600E9EC43 /* Photo+CoreDataProperties.swift */,
+				01C4BD5129847AAD00E9EC43 /* Photo+CoreDataClass.swift */,
+				01C4BD5229847AAD00E9EC43 /* Photo+CoreDataProperties.swift */,
+				01C4BD5329847AAD00E9EC43 /* Pin+CoreDataClass.swift */,
+				01C4BD5429847AAD00E9EC43 /* Pin+CoreDataProperties.swift */,
 				01B38AC6298192A7005BBB0B /* VirtualTuristModel.xcdatamodeld */,
 			);
 			path = CoreDataModel;
@@ -294,21 +294,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01C4BD4F29846B3600E9EC43 /* Photo+CoreDataClass.swift in Sources */,
+				01C4BD5629847AAD00E9EC43 /* Photo+CoreDataProperties.swift in Sources */,
 				01B38AD9298192D3005BBB0B /* DataControllerViewModel.swift in Sources */,
+				01C4BD5529847AAD00E9EC43 /* Photo+CoreDataClass.swift in Sources */,
 				01B38ACF298192A7005BBB0B /* FlickerModel.swift in Sources */,
-				01C4BD4D29846B3600E9EC43 /* Pin+CoreDataClass.swift in Sources */,
-				01C4BD4E29846B3600E9EC43 /* Pin+CoreDataProperties.swift in Sources */,
 				01B38ACE298192A7005BBB0B /* VirtualTuristModel.xcdatamodeld in Sources */,
 				018F9146298190AD00C72A7B /* MapViewController.swift in Sources */,
+				01C4BD5729847AAD00E9EC43 /* Pin+CoreDataClass.swift in Sources */,
 				01B38AD4298192C5005BBB0B /* FlickerServicing.swift in Sources */,
 				018F9142298190AD00C72A7B /* AppDelegate.swift in Sources */,
+				01C4BD5829847AAD00E9EC43 /* Pin+CoreDataProperties.swift in Sources */,
 				014253182983AEE600E04468 /* PhotoCollectionViewCell.swift in Sources */,
 				01B38AD3298192C5005BBB0B /* DataServicing.swift in Sources */,
 				01B38ADC298193AD005BBB0B /* PhotoViewController.swift in Sources */,
 				01A622202982AE8A0083A427 /* ErrorHandling.swift in Sources */,
 				01B38AD8298192D3005BBB0B /* FlickerViewModel.swift in Sources */,
-				01C4BD5029846B3600E9EC43 /* Photo+CoreDataProperties.swift in Sources */,
 				018F9144298190AD00C72A7B /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

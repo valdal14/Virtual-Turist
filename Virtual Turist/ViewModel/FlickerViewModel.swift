@@ -116,16 +116,4 @@ class FlickerViewModel {
 			throw FlickerError.badRequest
 		}
 	}
-	
-	//MARK: - Core data helper methods
-//	func saveImages(img: Image, pin: Pin) {
-//		/// convert the Image into a UIImage
-//		let renderer = ImageRenderer(content: img)
-//		if let uiImage = renderer.uiImage {
-//			// conver the image into binary data
-//			let imageData = uiImage.pngData()
-//			print(pin.fullAddress)
-//			print(imageData)
-//		}
-//	}
 }

@@ -44,7 +44,8 @@ class DataControllerViewModel {
 													   operation: .add,
 													   coordinates: coordinates,
 													   address: address,
-													   imageData: nil)
+													   imageData: nil,
+													   imageName: nil)
 		
 		/// fetch the data once a pin has been saved
 		/// this will populate the pins array and
