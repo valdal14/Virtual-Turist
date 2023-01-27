@@ -15,7 +15,6 @@ class PhotoViewController: UIViewController {
 	var flickerVM: FlickerViewModel = FlickerViewModel(flickerService: FlickerService())
 	
 	var selectedPinObject: Pin?
-	var photos: [Photo] = []
 	var pictures: [UIImage] = []
 	let noImageLabel = UILabel()
 	
