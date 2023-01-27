@@ -201,21 +201,10 @@ extension PhotoViewController {
 	/// Send the binary data to the dataController to perform the insert operation
 	private func passPhotosToDataController(photoData: Data){
 		if let dataControllerVM = dataControllerVM {
-			if let pin = selectedPinObject, let pinID = pin.id {
-				selectedImageName = pinID
-				dataControllerVM.dataControllerService.performCoreDataOperation(persistentContainer: dataControllerVM.container,
-																				dataType: .photo,
-																				operation: .add,
-																				coordinates: nil,
-																				address: nil,
-																				imageData: photoData,
-																				imageName: selectedImageName)
-			} else {
-				showAlert(message: .dataControllerError, viewController: self) { _ in
-					self.navigationController?.popViewController(animated: true)
-				}
-			}
-			
+			/// create a unique image name
+			selectedImageName = UUID().uuidString
+			/// add photo from core data via dataController
+			dataControllerVM.savePicture(imageData: photoData, imageName: selectedImageName)
 		} else {
 			showAlert(message: .dataControllerError, viewController: self) { _ in
 				self.navigationController?.popViewController(animated: true)
@@ -226,14 +215,14 @@ extension PhotoViewController {
 	/// delete selected photo from memory and core data
 	private func passPhotoToDeleteToDataController(indexPath: IndexPath) {
 		if let dataControllerVM = dataControllerVM {
-			/// delete from core data
-			dataControllerVM.dataControllerService.performCoreDataOperation(persistentContainer: dataControllerVM.container,
-																			dataType: .photo,
-																			operation: .delete,
-																			coordinates: nil,
-																			address: nil,
-																			imageData: nil,
-																			imageName: selectedImageName)
+			/// get the image name I want to delete from core data
+			let imageName = dataControllerVM.photos[indexPath.row].name
+			if let imageName = imageName {
+				/// delete photo from core data via dataController
+				dataControllerVM.deletePicture(imageName: imageName)
+			} else {
+				showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
+			}
 		} else {
 			showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
 		}
@@ -242,21 +231,16 @@ extension PhotoViewController {
 	@objc func handleSwipe(gesture: UISwipeGestureRecognizer) {
 		if gesture.direction == .left {
 			// set the name of the selected picture
-			if let pin = selectedPinObject, let pinID = pin.id {
-				selectedImageName = pinID
-				/// handle left swipe
-				let location = gesture.location(in: self.collectionView)
-				/// get the location
-				let indexPath = self.collectionView.indexPathForItem(at: location)
-				if let indexPath = indexPath {
-					passPhotoToDeleteToDataController(indexPath: indexPath)
-					/// remove the picture from the pictures array
-					pictures.remove(at: indexPath.row)
-					/// remove from the collection view
-					collectionView.deleteItems(at: [indexPath])
-				} else {
-					showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
-				}
+			/// handle left swipe
+			let location = gesture.location(in: self.collectionView)
+			/// get the location
+			let indexPath = self.collectionView.indexPathForItem(at: location)
+			if let indexPath = indexPath {
+				passPhotoToDeleteToDataController(indexPath: indexPath)
+				/// remove the picture from the pictures array
+				pictures.remove(at: indexPath.row)
+				/// remove from the collection view
+				collectionView.deleteItems(at: [indexPath])
 			} else {
 				showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
 			}

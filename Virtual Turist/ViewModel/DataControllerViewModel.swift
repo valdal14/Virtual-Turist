@@ -74,4 +74,27 @@ class DataControllerViewModel {
 		request.predicate = predicate
 		photos = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
 	}
+	
+	func savePicture(imageData: Data, imageName: String){
+		dataControllerService.performCoreDataOperation(persistentContainer: container,
+													   dataType: .photo,
+													   operation: .add,
+													   coordinates: nil,
+													   address: nil,
+													   imageData: imageData,
+													   imageName: imageName)
+	}
+	
+	func deletePicture(imageName: String) {
+		/// remove the selected image from the dataController photos array
+		photos = photos.filter { $0.name != imageName }
+		///
+		dataControllerService.performCoreDataOperation(persistentContainer: container,
+													   dataType: .photo,
+													   operation: .delete,
+													   coordinates: nil,
+													   address: nil,
+													   imageData: nil,
+													   imageName: imageName)
+	}
 }
