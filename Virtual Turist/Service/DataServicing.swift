@@ -10,7 +10,7 @@ import Foundation
 
 //MARK: - Protocol
 protocol DataServicing {
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String, imageData: Data?)
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String?, imageData: Data?)
 	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws -> [T]
 }
 
@@ -35,7 +35,7 @@ enum OperationType {
 class DataControllerService: DataServicing {
 	
 	//MARK: - DataServicing Delegatation
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String, imageData: Data?) {
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String?, imageData: Data?) {
 		let viewContext = persistentContainer.viewContext
 		
 		switch operation {
@@ -44,6 +44,7 @@ class DataControllerService: DataServicing {
 			case .pin:
 				let pin = Pin(context: viewContext)
 				pin.id = UUID().uuidString
+				pin.creationDate = Date()
 				pin.fullAddress = address
 				if let lat = coordinates?.0, let long = coordinates?.1 {
 					pin.latitude = lat

@@ -12,6 +12,7 @@ class DataControllerViewModel {
 	let dataControllerService: DataControllerService
 	let container: NSPersistentContainer
 	var pins: [Pin] = []
+	var photos: [Photo] = []
 	
 	init(dataControllerService: DataControllerService, containerName: String) {
 		self.dataControllerService = dataControllerService
@@ -46,12 +47,15 @@ class DataControllerViewModel {
 													   imageData: nil)
 		
 		/// fetch the data once a pin has been saved
-		try? fetchData()
+		/// this will populate the pins array and
+		/// allow to fetch the new selected pin via
+		/// fetchSelectedPin(coordinates:)
+		try? fetchMapPins()
 	}
 	
-	func fetchData() throws {
+	func fetchMapPins() throws {
 		let request = Pin.fetchRequest() as NSFetchRequest<Pin>
-		pins = try self.dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
+		pins = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
 	}
 	
 	
@@ -61,5 +65,12 @@ class DataControllerViewModel {
 		} else {
 			return nil
 		}
+	}
+	
+	func fetchPictures(selectedPinObject: Pin) throws {
+		let request = Photo.fetchRequest() as NSFetchRequest<Photo>
+		let predicate = NSPredicate(format: "pin == %@", selectedPinObject)
+		request.predicate = predicate
+		photos = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
 	}
 }

@@ -33,8 +33,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		do {
 			try fetchMapAnnotation()
 		} catch {
-			//TODO
-			print(error.localizedDescription)
+			showAlert(message: .errorFetchingPin, viewController: self, completion: nil)
 		}
 	}
 	
@@ -76,7 +75,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 	private func fetchMapAnnotation() throws {
 		/// get a reference to the DataControllerViewModel
 		let dataControllerVM = appDelegate.dataControllerVM
-		try dataControllerVM.fetchData()
+		try dataControllerVM.fetchMapPins()
 		/// populate the map with stored annotation
 		for pin in dataControllerVM.pins {
 			let annotation = MKPointAnnotation()
@@ -112,13 +111,13 @@ extension MapViewController: MKMapViewDelegate {
 	func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
 		if let _ = annotation.title {
 			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
-			photoMapVC.dataController = appDelegate.dataControllerVM
+			photoMapVC.dataControllerVM = appDelegate.dataControllerVM
 			/// get the ping back from dataController
 			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
 			show(photoMapVC, sender: self)
 		} else {
 			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
-	}	
+	}
 }
 

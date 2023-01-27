@@ -15,6 +15,9 @@ enum UIError: String, Error {
 	case photoMapNotInitialized = "The Map cannot be instanciated with the given coordinates"
 	case flickerAPIError = "Cannot get images from the server"
 	case invalidPin = "Cannot create a Map PIN"
+	case errorFetchingPin = "Error while trying to fetch Map Pins from store"
+	case errorFetchingPhotos = "Error while trying to fetch Photos from store"
+	case dataControllerError = "Data controller is not responding, please try again"
 }
 
 func showAlert(message: UIError, viewController: UIViewController, completion: alertAction) {
