@@ -10,8 +10,8 @@ import Foundation
 
 //MARK: - Protocol
 protocol DataServicing {
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String?, imageData: Data?, imageName: String?)
-	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws -> [T]
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String?, imageData: Data?, imageName: String?, pin: Pin?)
+	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>, pin: Pin?) throws -> [T]
 }
 
 //MARK: - Enums
@@ -19,6 +19,7 @@ enum DataControllerError: String, Error {
 	case savingError = "Error while trying to save data"
 	case invalidaType = "The given type is not recognized"
 	case fetchingError = "Error while trying to fetch data"
+	case invalidPin = "Invalid Pin was provided to this API"
 }
 
 enum DataType {
@@ -35,7 +36,7 @@ enum OperationType {
 class DataControllerService: DataServicing {
 	
 	//MARK: - DataServicing Delegatation
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String?, imageData: Data?, imageName: String?) {
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String?, imageData: Data?, imageName: String?, pin: Pin?) {
 		let viewContext = persistentContainer.viewContext
 		
 		switch operation {
@@ -51,9 +52,11 @@ class DataControllerService: DataServicing {
 					pin.longitude = long
 				}
 			case .photo:
+				guard let selectedPin = pin else { return }
 				let photo = Photo(context: viewContext)
 				photo.name = imageName
 				photo.photoData = imageData
+				selectedPin.addToPhotos(photo)
 			}
 		case .delete:
 			if let imageName = imageName {
@@ -70,7 +73,7 @@ class DataControllerService: DataServicing {
 		try? saveData(context: viewContext)
 	}
 	
-	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>) throws -> [T] where T : NSFetchRequestResult  {
+	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>, pin: Pin?) throws -> [T] where T : NSFetchRequestResult  {
 		
 		let viewContext = persistentContainer.viewContext
 		
@@ -83,9 +86,16 @@ class DataControllerService: DataServicing {
 			return pins as! [T]
 			
 		} else if type(of: T.self) == Photo.Type.self {
-			let photoRequest = Photo.fetchRequest() as NSFetchRequest<Photo>
-			let photos = try fetchRequestObjectData(request: photoRequest, context: viewContext)
-			return photos as! [T]
+			if let pin = pin {
+				let photoRequest = Photo.fetchRequest() as NSFetchRequest<Photo>
+				let predicate = NSPredicate(format: "pin == %@", pin)
+				photoRequest.predicate = predicate
+				let photos = try fetchRequestObjectData(request: photoRequest, context: viewContext)
+				return photos as! [T]
+			}  else {
+				print(DataControllerError.invalidPin)
+				throw DataControllerError.invalidPin
+			}
 		} else {
 			print(DataControllerError.invalidaType)
 			throw DataControllerError.invalidaType

@@ -38,25 +38,26 @@ class DataControllerViewModel {
 	}
 	
 	//MARK: - Data Helper methods
-	func savePin(coordinates: (Double, Double), address: String) {
+	func savePin(coordinates: (Double, Double), address: String, pin: Pin?) {
 		dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .pin,
 													   operation: .add,
 													   coordinates: coordinates,
 													   address: address,
 													   imageData: nil,
-													   imageName: nil)
+													   imageName: nil,
+													   pin: nil)
 		
 		/// fetch the data once a pin has been saved
 		/// this will populate the pins array and
 		/// allow to fetch the new selected pin via
 		/// fetchSelectedPin(coordinates:)
-		try? fetchMapPins()
+		try? fetchMapPins(pin: nil)
 	}
 	
-	func fetchMapPins() throws {
+	func fetchMapPins(pin: Pin?) throws {
 		let request = Pin.fetchRequest() as NSFetchRequest<Pin>
-		pins = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
+		pins = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request, pin: pin)
 	}
 	
 	
@@ -72,17 +73,18 @@ class DataControllerViewModel {
 		let request = Photo.fetchRequest() as NSFetchRequest<Photo>
 		let predicate = NSPredicate(format: "pin == %@", selectedPinObject)
 		request.predicate = predicate
-		photos = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request)
+		photos = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request, pin: selectedPinObject)
 	}
 	
-	func savePicture(imageData: Data, imageName: String){
+	func savePicture(imageData: Data, imageName: String, pin: Pin){
 		dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .photo,
 													   operation: .add,
 													   coordinates: nil,
 													   address: nil,
 													   imageData: imageData,
-													   imageName: imageName)
+													   imageName: imageName,
+													   pin: pin)
 	}
 	
 	func deletePicture(imageName: String) {
@@ -95,6 +97,7 @@ class DataControllerViewModel {
 													   coordinates: nil,
 													   address: nil,
 													   imageData: nil,
-													   imageName: imageName)
+													   imageName: imageName,
+													   pin: nil)
 	}
 }

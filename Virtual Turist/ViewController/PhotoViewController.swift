@@ -204,7 +204,13 @@ extension PhotoViewController {
 			/// create a unique image name
 			selectedImageName = UUID().uuidString
 			/// add photo from core data via dataController
-			dataControllerVM.savePicture(imageData: photoData, imageName: selectedImageName)
+			if let pin = selectedPinObject {
+				dataControllerVM.savePicture(imageData: photoData, imageName: selectedImageName, pin: pin)
+			} else {
+				showAlert(message: .invalidPin, viewController: self) { _ in
+					self.navigationController?.popViewController(animated: true)
+				}
+			}
 		} else {
 			showAlert(message: .dataControllerError, viewController: self) { _ in
 				self.navigationController?.popViewController(animated: true)
