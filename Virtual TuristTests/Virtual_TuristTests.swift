@@ -2,14 +2,74 @@
 //  Virtual_TuristTests.swift
 //  Virtual TuristTests
 //
-//  Created by Valerio D'ALESSIO on 20/1/23.
+//  Created by Valerio D'ALESSIO on 25/1/23.
 //
 
+import CoreData
 import XCTest
 @testable import Virtual_Turist
 
 final class Virtual_TuristTests: XCTestCase {
 
+	func test_NSFetchRequestPinTypeDoesNotThrow() throws {
+		let request = Pin.fetchRequest() as NSFetchRequest<Pin>
+		let dataControllerService = DataControllerService()
+		let dataControllerVM = DataControllerViewModel(dataControllerService: dataControllerService, containerName: "VirtualTuristModel")
+		let sut = DataControllerService()
+		
+		XCTAssertNoThrow(try sut.getDataFromCoreDataStore(persistentContainer: dataControllerVM.container, request: request))
+	}
+	
+	func test_NSFetchRequestPhotoTypeDoesNotThrow() throws {
+		let request = Photo.fetchRequest() as NSFetchRequest<Photo>
+		let dataControllerService = DataControllerService()
+		let dataControllerVM = DataControllerViewModel(dataControllerService: dataControllerService, containerName: "VirtualTuristModel")
+		let sut = DataControllerService()
+		
+		XCTAssertNoThrow(try sut.getDataFromCoreDataStore(persistentContainer: dataControllerVM.container, request: request))
+	}
+	
+	func test_FlickerServiceURLDoesNotThrow() throws {
+		let sut = FlickerService()
+		
+		XCTAssertNoThrow(try sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/",
+												  method: "flickr.photos.search",
+										 apiKey: "123456",
+										 text: "dog",
+										 maxPictures: 5))
+	}
+	
+	func test_FlickerServiceProducedValidURLString() throws {
+		let sut = FlickerService()
+		let url = try? sut.createFlickerSearchURL(endpointURL: "https://api.flickr.com/services/rest/",
+									   method: "flickr.photos.search",
+									   apiKey: "123456",
+									   text: "dog",
+									   maxPictures: 5)
+		
+		let urlString = url?.absoluteString
+		let excpectedUrlString = "https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=123456&text=dog&per_page=5&format=json&nojsoncallback=1"
+		XCTAssertEqual(urlString, excpectedUrlString)
+	}
+	
+	func test_ShowAlertFunction() {
+		let sut = UIViewController()
+		var alertTitle = ""
+		showAlert(message: UIError.invalidAnnotation, viewController: sut) { action in
+			alertTitle += action.title ?? "Unkown"
+			XCTAssertEqual(alertTitle, "Virtual Turist Error")
+		}
+		
+	}
+	
+	func test_fetchSelectedPin_FoundPin() {
+		let sut = DataControllerViewModel(dataControllerService: DataControllerService(), containerName: "VirtualTuristModel")
+		let newPin = Pin(context: sut.container.viewContext)
+		sut.pins.append(newPin)
+		let newSelectedPin = sut.fetchSelectedPin(coordinates: (0.0, 0.0))
+		XCTAssertEqual(newPin, newSelectedPin)
+	}
+	
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -28,7 +88,7 @@ final class Virtual_TuristTests: XCTestCase {
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
-        self.measure {
+        measure {
             // Put the code you want to measure the time of here.
         }
     }
