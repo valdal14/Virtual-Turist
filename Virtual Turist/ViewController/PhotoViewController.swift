@@ -18,6 +18,7 @@ class PhotoViewController: UIViewController {
 	var selectedImageName: String = ""
 	var pictures: [UIImage] = []
 	let noImageLabel = UILabel()
+	let spinner = UIActivityIndicatorView(style: .large)
 	
 	@IBOutlet weak var collectionView: UICollectionView!
 	@IBOutlet weak var photoMap: MKMapView!
@@ -25,6 +26,8 @@ class PhotoViewController: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		/// hide the new collection button
+		toolbarButton.isHidden = true
 		/// configure a swipe gesture to delete on collection view
 		let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
 		swipeGesture.direction = .left
@@ -34,7 +37,6 @@ class PhotoViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		setupPhotoMap(pin: selectedPinObject)
-		setupNoImagesLabel(with: noImageLabel, numberOfImage: pictures.count)
 		do {
 			if let pin = selectedPinObject {
 				try fetchPictures(selectedPinObject: pin)
@@ -75,20 +77,37 @@ class PhotoViewController: UIViewController {
 	private func fetchPictures(selectedPinObject: Pin) throws {
 		/// get a reference to the DataControllerViewModel
 		try dataControllerVM?.fetchPictures(selectedPinObject: selectedPinObject)
-		let coreDataPhotoArray = dataControllerVM?.photos
-		var binaryData: [Data] = []
-		if let photoArray = coreDataPhotoArray {
-			for img in photoArray {
-				if let imgData = img.photoData {
-					binaryData.append(imgData)
+		/// if no pictures associated with the selectedPin were found we start
+		/// the flicker api otherwise we load the picture from flicker
+		if ((dataControllerVM?.photos.isEmpty) == true) {
+			setupSpinner(spinner: spinner, isVisible: true)
+			getPhotosFromFlicker {
+				/// once the download is completed execute the completion to
+				/// start saving the photos into core data
+				DispatchQueue.global().async {
+					for imgData in self.flickerVM.uiImageBinaryData {
+						self.passPhotosToDataController(photoData: imgData)
+					}
 				}
 			}
-			/// pass the coredata binary data to the setupCollectionViewWithLocalPictures
-			setupCollectionViewWithLocalPictures(binaryData: binaryData)
-			
 		} else {
-			showAlert(message: .errorFetchingPhotos, viewController: self) { _ in
-				self.navigationController?.popViewController(animated: true)
+			let coreDataPhotoArray = dataControllerVM?.photos
+			var binaryData: [Data] = []
+			if let photoArray = coreDataPhotoArray {
+				for img in photoArray {
+					if let imgData = img.photoData {
+						binaryData.append(imgData)
+					}
+				}
+				/// pass the coredata binary data to the setupCollectionViewWithLocalPictures
+				setupCollectionViewWithLocalPictures(binaryData: binaryData)
+				/// enable the new collection button
+				toolbarButton.isHidden = false
+				
+			} else {
+				showAlert(message: .errorFetchingPhotos, viewController: self) { _ in
+					self.navigationController?.popViewController(animated: true)
+				}
 			}
 		}
 	}
@@ -118,8 +137,6 @@ extension PhotoViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
-		/// diplay No Images if the pictures array is empty
-		setupNoImagesLabel(with: noImageLabel, numberOfImage: pictures.count)
 		/// setup a cell or use a placeholder
 		cell.setupCell(with: pictures, indexPath: indexPath)
 		return cell
@@ -133,29 +150,6 @@ extension PhotoViewController: UICollectionViewDelegate {
 	}
 }
 
-//MARK: - Setup No Image label
-extension PhotoViewController {
-	
-	private func setupNoImagesLabel(with label: UILabel, numberOfImage: Int){
-		if numberOfImage == 0 {
-			label.text = "No Images"
-			label.font = UIFont.systemFont(ofSize: 24)
-			label.textColor = .black
-			/// add the new label
-			view.addSubview(label)
-			label.frame = CGRect(x: 0, y: 0, width: 200, height: 50)
-			/// constraints and placement
-			label.center = view.center
-			label.translatesAutoresizingMaskIntoConstraints = false
-			label.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-			label.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-			label.isHidden = false
-		} else {
-			label.isHidden = true
-		}
-	}
-}
-
 //MARK: - Flicker APIs
 extension PhotoViewController {
 	private func getPhotosFromFlicker(completion: @escaping () -> Void) {
@@ -166,12 +160,18 @@ extension PhotoViewController {
 					/// if the download is completed I can start adding pictures to the
 					/// collectionView and remove the No Image label if it is not hidden already
 					self.setupCollectionViewWithLocalPictures(binaryData: flickerVM.uiImageBinaryData)
+					/// enable the new collection button
+					self.toolbarButton.isHidden = false
+					/// stop the spinner animation
+					setupSpinner(spinner: spinner, isVisible: false)
 					/// call the completion handler
 					completion()
 				} catch {
-					print(error.localizedDescription)
+					/// show no image label
 					showAlert(message: .flickerAPIError, viewController: self) { _ in
-						self.navigationController?.popViewController(animated: true)
+						self.setupNoImagesLabel(with: self.noImageLabel, numberOfImage: self.pictures.count)
+						/// stop the spinner animation
+						self.setupSpinner(spinner: self.spinner, isVisible: false)
 					}
 				}
 			}

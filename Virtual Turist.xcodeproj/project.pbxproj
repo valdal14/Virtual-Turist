@@ -15,7 +15,6 @@
 		018F914E298190AE00C72A7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 018F914D298190AE00C72A7B /* Assets.xcassets */; };
 		018F9151298190AE00C72A7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 018F914F298190AE00C72A7B /* LaunchScreen.storyboard */; };
 		01A622202982AE8A0083A427 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A6221F2982AE8A0083A427 /* ErrorHandling.swift */; };
-		01A622212982AE8A0083A427 /* ErrorHandling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01A6221F2982AE8A0083A427 /* ErrorHandling.swift */; };
 		01B38ACE298192A7005BBB0B /* VirtualTuristModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AC6298192A7005BBB0B /* VirtualTuristModel.xcdatamodeld */; };
 		01B38ACF298192A7005BBB0B /* FlickerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AC8298192A7005BBB0B /* FlickerModel.swift */; };
 		01B38AD3298192C5005BBB0B /* DataServicing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AD1298192C5005BBB0B /* DataServicing.swift */; };
@@ -24,10 +23,11 @@
 		01B38AD9298192D3005BBB0B /* DataControllerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AD7298192D3005BBB0B /* DataControllerViewModel.swift */; };
 		01B38ADC298193AD005BBB0B /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38ADB298193AD005BBB0B /* PhotoViewController.swift */; };
 		01B38AE52981956B005BBB0B /* Virtual_TuristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B38AE42981956B005BBB0B /* Virtual_TuristTests.swift */; };
-		01C4BD5529847AAD00E9EC43 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5129847AAD00E9EC43 /* Photo+CoreDataClass.swift */; };
-		01C4BD5629847AAD00E9EC43 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5229847AAD00E9EC43 /* Photo+CoreDataProperties.swift */; };
-		01C4BD5729847AAD00E9EC43 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5329847AAD00E9EC43 /* Pin+CoreDataClass.swift */; };
-		01C4BD5829847AAD00E9EC43 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4BD5429847AAD00E9EC43 /* Pin+CoreDataProperties.swift */; };
+		01FD7AEC298660980083A2A7 /* Photo+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD7AE8298660980083A2A7 /* Photo+CoreDataClass.swift */; };
+		01FD7AED298660980083A2A7 /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD7AE9298660980083A2A7 /* Photo+CoreDataProperties.swift */; };
+		01FD7AEE298660980083A2A7 /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD7AEA298660980083A2A7 /* Pin+CoreDataClass.swift */; };
+		01FD7AEF298660980083A2A7 /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD7AEB298660980083A2A7 /* Pin+CoreDataProperties.swift */; };
+		01FD7AF129866CA80083A2A7 /* PhotoViewController+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01FD7AF029866CA80083A2A7 /* PhotoViewController+UIExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,10 +60,11 @@
 		01B38ADB298193AD005BBB0B /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		01B38AE22981956B005BBB0B /* Virtual TuristTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Virtual TuristTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		01B38AE42981956B005BBB0B /* Virtual_TuristTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Virtual_TuristTests.swift; sourceTree = "<group>"; };
-		01C4BD5129847AAD00E9EC43 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01C4BD5229847AAD00E9EC43 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		01C4BD5329847AAD00E9EC43 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
-		01C4BD5429847AAD00E9EC43 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01FD7AE8298660980083A2A7 /* Photo+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01FD7AE9298660980083A2A7 /* Photo+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Photo+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01FD7AEA298660980083A2A7 /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		01FD7AEB298660980083A2A7 /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		01FD7AF029866CA80083A2A7 /* PhotoViewController+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PhotoViewController+UIExtensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +123,7 @@
 			isa = PBXGroup;
 			children = (
 				01A6221F2982AE8A0083A427 /* ErrorHandling.swift */,
+				01FD7AF029866CA80083A2A7 /* PhotoViewController+UIExtensions.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -138,10 +140,10 @@
 		01B38ABF298192A7005BBB0B /* CoreDataModel */ = {
 			isa = PBXGroup;
 			children = (
-				01C4BD5129847AAD00E9EC43 /* Photo+CoreDataClass.swift */,
-				01C4BD5229847AAD00E9EC43 /* Photo+CoreDataProperties.swift */,
-				01C4BD5329847AAD00E9EC43 /* Pin+CoreDataClass.swift */,
-				01C4BD5429847AAD00E9EC43 /* Pin+CoreDataProperties.swift */,
+				01FD7AE8298660980083A2A7 /* Photo+CoreDataClass.swift */,
+				01FD7AE9298660980083A2A7 /* Photo+CoreDataProperties.swift */,
+				01FD7AEA298660980083A2A7 /* Pin+CoreDataClass.swift */,
+				01FD7AEB298660980083A2A7 /* Pin+CoreDataProperties.swift */,
 				01B38AC6298192A7005BBB0B /* VirtualTuristModel.xcdatamodeld */,
 			);
 			path = CoreDataModel;
@@ -294,19 +296,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01C4BD5629847AAD00E9EC43 /* Photo+CoreDataProperties.swift in Sources */,
+				01FD7AED298660980083A2A7 /* Photo+CoreDataProperties.swift in Sources */,
 				01B38AD9298192D3005BBB0B /* DataControllerViewModel.swift in Sources */,
-				01C4BD5529847AAD00E9EC43 /* Photo+CoreDataClass.swift in Sources */,
+				01FD7AEC298660980083A2A7 /* Photo+CoreDataClass.swift in Sources */,
 				01B38ACF298192A7005BBB0B /* FlickerModel.swift in Sources */,
 				01B38ACE298192A7005BBB0B /* VirtualTuristModel.xcdatamodeld in Sources */,
 				018F9146298190AD00C72A7B /* MapViewController.swift in Sources */,
-				01C4BD5729847AAD00E9EC43 /* Pin+CoreDataClass.swift in Sources */,
+				01FD7AEE298660980083A2A7 /* Pin+CoreDataClass.swift in Sources */,
 				01B38AD4298192C5005BBB0B /* FlickerServicing.swift in Sources */,
 				018F9142298190AD00C72A7B /* AppDelegate.swift in Sources */,
-				01C4BD5829847AAD00E9EC43 /* Pin+CoreDataProperties.swift in Sources */,
+				01FD7AEF298660980083A2A7 /* Pin+CoreDataProperties.swift in Sources */,
 				014253182983AEE600E04468 /* PhotoCollectionViewCell.swift in Sources */,
 				01B38AD3298192C5005BBB0B /* DataServicing.swift in Sources */,
 				01B38ADC298193AD005BBB0B /* PhotoViewController.swift in Sources */,
+				01FD7AF129866CA80083A2A7 /* PhotoViewController+UIExtensions.swift in Sources */,
 				01A622202982AE8A0083A427 /* ErrorHandling.swift in Sources */,
 				01B38AD8298192D3005BBB0B /* FlickerViewModel.swift in Sources */,
 				018F9144298190AD00C72A7B /* SceneDelegate.swift in Sources */,
@@ -318,7 +321,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				01B38AE52981956B005BBB0B /* Virtual_TuristTests.swift in Sources */,
-				01A622212982AE8A0083A427 /* ErrorHandling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -476,11 +478,12 @@
 				DEVELOPMENT_TEAM = 4NUH9696GL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Virtual Turist/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -507,11 +510,12 @@
 				DEVELOPMENT_TEAM = 4NUH9696GL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Virtual Turist/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.travel";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

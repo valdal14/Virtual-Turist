@@ -23,69 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8D3397FD-5971-4C6B-89F5-145D780A43B7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/MapViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "passPinToDataController(annotation:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "8D3397FD-5971-4C6B-89F5-145D780A43B7 - 5ab18b0672bbf84"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.MapViewController.saveNewPin(annotation: __C.MKAnnotation) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
-                  offsetFromSymbolStart = "148">
-               </Location>
-               <Location
-                  uuid = "8D3397FD-5971-4C6B-89F5-145D780A43B7 - 5ab18b0672bbf84"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.MapViewController.saveNewPin(annotation: __C.MKAnnotation) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
-                  offsetFromSymbolStart = "460">
-               </Location>
-               <Location
-                  uuid = "8D3397FD-5971-4C6B-89F5-145D780A43B7 - 5ab18b0672bbf84"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.MapViewController.saveNewPin(annotation: __C.MKAnnotation) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/MapViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "92"
-                  endingLineNumber = "92"
-                  offsetFromSymbolStart = "544">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "EB2FE302-A13C-4D89-B871-9BA0CEEC0A4B"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -93,8 +30,8 @@
             filePath = "Virtual Turist/ViewController/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
             landmarkName = "mapView(_:didSelect:)"
             landmarkType = "7">
             <Locations>
@@ -165,54 +102,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "359095BF-6442-4786-BA9C-815E9161D5E7"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "41B3AD60-87E6-4ABA-BA9F-EAF55564C8C0"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
-            landmarkName = "collectionView(_:cellForItemAt:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1F91CD35-6CBB-46BD-AA25-B8197093D1D9"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
-            landmarkName = "setupPhotoMap(pin:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "46C23BF2-A3EB-44C0-BF41-12918D3ABF4D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -220,8 +109,8 @@
             filePath = "Virtual Turist/ViewController/MapViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
             landmarkName = "mapView(_:didSelect:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -236,121 +125,9 @@
             filePath = "Virtual Turist/ViewModel/DataControllerViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "73"
-            endingLineNumber = "73"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
             landmarkName = "fetchPictures(selectedPinObject:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "267A3458-43A6-46C0-923F-D22881A2281E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "203"
-            endingLineNumber = "203"
-            landmarkName = "passPhotosToDataController(photoData:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "4DA85B2E-2F87-4C09-ABF6-9D9BD80E42EC"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "fetchPictures(selectedPinObject:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E9225555-52F2-4F49-9AB2-DE7980570757"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "fetchPictures(selectedPinObject:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B2F95E70-EC4B-4D42-AE2F-CE87911F320F"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "223"
-            endingLineNumber = "223"
-            landmarkName = "passPhotoToDeleteToDataController(indexPath:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "B2F95E70-EC4B-4D42-AE2F-CE87911F320F - a0b0a8b7ac25f946"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.PhotoViewController.passPhotoToDeleteToDataController(indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/PhotoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "236">
-               </Location>
-               <Location
-                  uuid = "B2F95E70-EC4B-4D42-AE2F-CE87911F320F - a0b0a8b7ac25f946"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.PhotoViewController.passPhotoToDeleteToDataController(indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/PhotoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "216"
-                  endingLineNumber = "216"
-                  offsetFromSymbolStart = "428">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "79752FEE-41FF-475F-ACD5-095C6CE5BDB4"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "238"
-            endingLineNumber = "238"
-            landmarkName = "handleSwipe(gesture:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -364,9 +141,9 @@
             filePath = "Virtual Turist/Service/DataServicing.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "performCoreDataOperation(persistentContainer:dataType:operation:coordinates:address:imageData:imageName:pin:)"
+            startingLineNumber = "84"
+            endingLineNumber = "84"
+            landmarkName = "performCoreDataOperation(persistentContainer:dataType:operation:coordinates:address:imageData:imageName:pin:center:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -380,8 +157,8 @@
             filePath = "Virtual Turist/ViewModel/DataControllerViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "deletePicture(imageName:)"
             landmarkType = "7">
             <Locations>
@@ -428,8 +205,8 @@
             filePath = "Virtual Turist/ViewModel/DataControllerViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "deletePicture(imageName:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -444,73 +221,9 @@
             filePath = "Virtual Turist/Service/DataServicing.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "getDataFromCoreDataStore(persistentContainer:request:pin:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "863F1801-FEE8-49CD-AE4E-BAD404F9BAAF"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "passPhotoToDeleteToDataController(indexPath:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "863F1801-FEE8-49CD-AE4E-BAD404F9BAAF - a0b0a8b7ac25f92b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.PhotoViewController.passPhotoToDeleteToDataController(indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/PhotoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "219"
-                  endingLineNumber = "219"
-                  offsetFromSymbolStart = "224">
-               </Location>
-               <Location
-                  uuid = "863F1801-FEE8-49CD-AE4E-BAD404F9BAAF - a0b0a8b7ac25f92b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Virtual_Turist.PhotoViewController.passPhotoToDeleteToDataController(indexPath: Foundation.IndexPath) -&gt; ()"
-                  moduleName = "Virtual Turist"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/ViewController/PhotoViewController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "219"
-                  endingLineNumber = "219"
-                  offsetFromSymbolStart = "376">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "8801B419-0929-4FF1-B4AA-B9FA478AD084"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
-            landmarkName = "passPhotosToDataController(photoData:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -524,9 +237,89 @@
             filePath = "Virtual Turist/Service/DataServicing.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
             landmarkName = "getDataFromCoreDataStore(persistentContainer:request:pin:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D73188A2-06C1-47BF-8C2B-B049CE879D6E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Virtual Turist/Service/DataServicing.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "65"
+            endingLineNumber = "65"
+            landmarkName = "performCoreDataOperation(persistentContainer:dataType:operation:coordinates:address:imageData:imageName:pin:center:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "D73188A2-06C1-47BF-8C2B-B049CE879D6E - 4721a5fc2b96c015"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Virtual_Turist.DataControllerService.performCoreDataOperation(persistentContainer: __C.NSPersistentContainer, dataType: Virtual_Turist.DataType, operation: Virtual_Turist.OperationType, coordinates: Swift.Optional&lt;(Swift.Double, Swift.Double)&gt;, address: Swift.Optional&lt;Swift.String&gt;, imageData: Swift.Optional&lt;Foundation.Data&gt;, imageName: Swift.Optional&lt;Swift.String&gt;, pin: Swift.Optional&lt;Virtual_Turist.Pin&gt;, center: Swift.Optional&lt;(Swift.Double, Swift.Double)&gt;) -&gt; ()"
+                  moduleName = "Virtual Turist"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/Service/DataServicing.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "600">
+               </Location>
+               <Location
+                  uuid = "D73188A2-06C1-47BF-8C2B-B049CE879D6E - 4721a5fc2b96c015"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Virtual_Turist.DataControllerService.performCoreDataOperation(persistentContainer: __C.NSPersistentContainer, dataType: Virtual_Turist.DataType, operation: Virtual_Turist.OperationType, coordinates: Swift.Optional&lt;(Swift.Double, Swift.Double)&gt;, address: Swift.Optional&lt;Swift.String&gt;, imageData: Swift.Optional&lt;Foundation.Data&gt;, imageName: Swift.Optional&lt;Swift.String&gt;, pin: Swift.Optional&lt;Virtual_Turist.Pin&gt;, center: Swift.Optional&lt;(Swift.Double, Swift.Double)&gt;) -&gt; ()"
+                  moduleName = "Virtual Turist"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/u105550/Desktop/Virtual%20Turist/Virtual%20Turist/Service/DataServicing.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "65"
+                  endingLineNumber = "65"
+                  offsetFromSymbolStart = "628">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9671DDBB-7130-4057-A285-D044CFC69DB3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "82"
+            endingLineNumber = "82"
+            landmarkName = "fetchPictures(selectedPinObject:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DBD325CC-6C7B-4627-9840-4E6178882091"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Virtual Turist/ViewController/PhotoViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "fetchPictures(selectedPinObject:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -38,7 +38,7 @@ class DataControllerViewModel {
 	}
 	
 	//MARK: - Data Helper methods
-	func savePin(coordinates: (Double, Double), address: String, pin: Pin?) {
+	func savePin(coordinates: (Double, Double), address: String, pin: Pin?, span: (Double, Double)) {
 		dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .pin,
 													   operation: .add,
@@ -46,7 +46,8 @@ class DataControllerViewModel {
 													   address: address,
 													   imageData: nil,
 													   imageName: nil,
-													   pin: nil)
+													   pin: nil,
+													   center: span)
 		
 		/// fetch the data once a pin has been saved
 		/// this will populate the pins array and
@@ -84,7 +85,8 @@ class DataControllerViewModel {
 													   address: nil,
 													   imageData: imageData,
 													   imageName: imageName,
-													   pin: pin)
+													   pin: pin,
+													   center: nil)
 	}
 	
 	func deletePicture(imageName: String) {
@@ -98,6 +100,7 @@ class DataControllerViewModel {
 													   address: nil,
 													   imageData: nil,
 													   imageName: imageName,
-													   pin: nil)
+													   pin: nil,
+													   center: nil)
 	}
 }
