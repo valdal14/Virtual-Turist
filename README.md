@@ -1,5 +1,5 @@
 # Virtual Tursit
-iOS Project using MapKit and UIKit
+iOS Project using MapKit and CoreData
 
 # Description
 Virtual Turist is a native iOS application developed as part of the iOS Udacity Nanodegree and it allows a user to place a pin on the map and download images based on the selected location from the Flicker APIs and store both images and pins in Apple CoreData
