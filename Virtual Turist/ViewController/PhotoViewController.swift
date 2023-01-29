@@ -28,10 +28,6 @@ class PhotoViewController: UIViewController {
 		super.viewDidLoad()
 		/// hide the new collection button
 		toolbarButton.isHidden = true
-		/// configure a swipe gesture to delete on collection view
-		let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe))
-		swipeGesture.direction = .left
-		collectionView.addGestureRecognizer(swipeGesture)
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
@@ -146,7 +142,12 @@ extension PhotoViewController: UICollectionViewDataSource {
 //MARK: - CollectionView Delegation
 extension PhotoViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		// TODO - Open the picture
+		/// remove a picture when we tap on it
+		passPhotoToDeleteToDataController(indexPath: indexPath)
+		/// remove the picture from the pictures array
+		pictures.remove(at: indexPath.row)
+		/// remove from the collection view
+		collectionView.deleteItems(at: [indexPath])
 	}
 }
 
@@ -231,25 +232,6 @@ extension PhotoViewController {
 			}
 		} else {
 			showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
-		}
-	}
-	
-	@objc func handleSwipe(gesture: UISwipeGestureRecognizer) {
-		if gesture.direction == .left {
-			// set the name of the selected picture
-			/// handle left swipe
-			let location = gesture.location(in: self.collectionView)
-			/// get the location
-			let indexPath = self.collectionView.indexPathForItem(at: location)
-			if let indexPath = indexPath {
-				passPhotoToDeleteToDataController(indexPath: indexPath)
-				/// remove the picture from the pictures array
-				pictures.remove(at: indexPath.row)
-				/// remove from the collection view
-				collectionView.deleteItems(at: [indexPath])
-			} else {
-				showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
-			}
 		}
 	}
 }
