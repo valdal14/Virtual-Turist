@@ -2,10 +2,10 @@
 iOS Project using MapKit and UIKit
 
 # Description
-Vortual Turist is a project developed as part of the iOS Udacity Nanodegree and it allows a user to place a pin on the map and download images based on the selected location from the Flicker APIs 
+Virtual Turist is a native iOS application developed as part of the iOS Udacity Nanodegree and it allows a user to place a pin on the map and download images based on the selected location from the Flicker APIs and store both images and pins in Apple CoreData
 
 # Video Tutorial
-[![Watch the video](https://github.com/valdal14/Virtual-Turist/blob/main/VirtualTuristBanner.png?raw=true)](https://youtu.be/XpICxX5mQXU)
+[![Watch the video](https://github.com/valdal14/Virtual-Turist/blob/main/VirtualTuristBanner.png?raw=true)](https://youtu.be/g3NBwgM6gr4)
 
 # Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue,
