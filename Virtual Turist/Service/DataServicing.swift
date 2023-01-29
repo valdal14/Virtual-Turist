@@ -74,10 +74,10 @@ class DataControllerService: DataServicing {
 				}
 			case .photo:
 				guard let selectedPin = pin else { return }
-				let photo = Photo(context: viewContext)
-				photo.name = imageName
-				photo.photoData = imageData
-				selectedPin.addToPhotos(photo)
+				let selectedPhoto = selectedPin.photos?.allObjects as? [Photo]
+				if let photoToStore = selectedPhoto?.first {
+					selectedPin.addToPhotos(photoToStore)
+				}
 			}
 		case .delete:
 			if let imageName = imageName {
