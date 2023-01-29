@@ -10,7 +10,16 @@ import Foundation
 
 //MARK: - Protocol
 protocol DataServicing {
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double,Double)?, address: String?, imageData: Data?, imageName: String?, pin: Pin?)
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer,
+								  dataType: DataType,
+								  operation: OperationType,
+								  coordinates: (Double,Double)?,
+								  address: String?,
+								  imageData: Data?,
+								  imageName: String?,
+								  pin: Pin?,
+								  center: (Double, Double)?)
+	
 	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>, pin: Pin?) throws -> [T]
 }
 
@@ -36,7 +45,16 @@ enum OperationType {
 class DataControllerService: DataServicing {
 	
 	//MARK: - DataServicing Delegatation
-	func performCoreDataOperation(persistentContainer: NSPersistentContainer, dataType: DataType, operation: OperationType, coordinates: (Double, Double)?, address: String?, imageData: Data?, imageName: String?, pin: Pin?) {
+	func performCoreDataOperation(persistentContainer: NSPersistentContainer,
+								  dataType: DataType,
+								  operation: OperationType,
+								  coordinates: (Double, Double)?,
+								  address: String?,
+								  imageData: Data?,
+								  imageName: String?,
+								  pin: Pin?,
+								  center: (Double, Double)?) {
+		
 		let viewContext = persistentContainer.viewContext
 		
 		switch operation {
@@ -44,7 +62,10 @@ class DataControllerService: DataServicing {
 			switch dataType {
 			case .pin:
 				let pin = Pin(context: viewContext)
-				pin.id = UUID().uuidString
+				if let span = center {
+					pin.latDelta = span.0
+					pin.longDelta = span.1
+				}
 				pin.creationDate = Date()
 				pin.fullAddress = address
 				if let lat = coordinates?.0, let long = coordinates?.1 {

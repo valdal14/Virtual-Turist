@@ -13,7 +13,7 @@ typealias alertAction = ((UIAlertAction) -> Void)?
 enum UIError: String, Error {
 	case invalidAnnotation = "Cannot get the annotation information from the MAP"
 	case photoMapNotInitialized = "The Map cannot be instanciated with the given coordinates"
-	case flickerAPIError = "Cannot get images from the server"
+	case flickerAPIError = "Cannot find images with the given location"
 	case invalidPin = "Cannot create a Map PIN"
 	case errorFetchingPin = "Error while trying to fetch Map Pins from store"
 	case errorFetchingPhotos = "Error while trying to fetch Photos from store"

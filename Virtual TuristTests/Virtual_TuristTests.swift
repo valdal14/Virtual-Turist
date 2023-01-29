@@ -17,7 +17,7 @@ final class Virtual_TuristTests: XCTestCase {
 		let dataControllerVM = DataControllerViewModel(dataControllerService: dataControllerService, containerName: "VirtualTuristModel")
 		let sut = DataControllerService()
 		
-		XCTAssertNoThrow(try sut.getDataFromCoreDataStore(persistentContainer: dataControllerVM.container, request: request))
+		XCTAssertNoThrow(try sut.getDataFromCoreDataStore(persistentContainer: dataControllerVM.container, request: request, pin: nil))
 	}
 	
 	func test_NSFetchRequestPhotoTypeDoesNotThrow() throws {
@@ -26,7 +26,7 @@ final class Virtual_TuristTests: XCTestCase {
 		let dataControllerVM = DataControllerViewModel(dataControllerService: dataControllerService, containerName: "VirtualTuristModel")
 		let sut = DataControllerService()
 		
-		XCTAssertNoThrow(try sut.getDataFromCoreDataStore(persistentContainer: dataControllerVM.container, request: request))
+		XCTAssertNoThrow(try sut.getDataFromCoreDataStore(persistentContainer: dataControllerVM.container, request: request, pin: Pin(context: dataControllerVM.container.viewContext)))
 	}
 	
 	func test_FlickerServiceURLDoesNotThrow() throws {

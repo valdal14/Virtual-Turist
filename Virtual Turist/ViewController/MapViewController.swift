@@ -81,7 +81,11 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 			let annotation = MKPointAnnotation()
 			annotation.title = pin.fullAddress
 			annotation.coordinate = CLLocationCoordinate2D(latitude: pin.latitude, longitude: pin.longitude)
-			self.map.addAnnotation(annotation)
+			DispatchQueue.main.async {
+				self.map.addAnnotation(annotation)
+				/// set the center and zoom of the last visited pin
+				self.map.region = MKCoordinateRegion(center: annotation.coordinate, span: MKCoordinateSpan(latitudeDelta: pin.latDelta, longitudeDelta: pin.longDelta))
+			}
 		}
 		/// reload the map
 		DispatchQueue.main.async {
@@ -94,7 +98,9 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		let dataControllerVM = appDelegate.dataControllerVM
 		if let annotationTitle = annotation.title, let annotationAddress = annotationTitle {
 			/// save pin
-			dataControllerVM.savePin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude), address: annotationAddress, pin: nil)
+			dataControllerVM.savePin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
+									 address: annotationAddress, pin: nil,
+									 span: (map.region.span.latitudeDelta, map.region.span.longitudeDelta))
 			/// toggle the long gesture again once we saved the new location
 			self.longPressActive.toggle()
 		} else {
