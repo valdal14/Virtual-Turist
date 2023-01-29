@@ -78,6 +78,12 @@ class DataControllerViewModel {
 	}
 	
 	func savePicture(imageData: Data, imageName: String, pin: Pin){
+		let newPhoto = Photo(context: self.container.viewContext)
+		newPhoto.name = imageName
+		newPhoto.photoData = imageData
+		newPhoto.pin = pin
+		photos.append(newPhoto)
+		
 		dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .photo,
 													   operation: .add,

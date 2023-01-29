@@ -116,4 +116,11 @@ class FlickerViewModel {
 			throw FlickerError.badRequest
 		}
 	}
+	
+	/// empties all in-momory info
+	func removeInMemoryPictureInformation() {
+		pictures = []
+		pictureURL = []
+		uiImageBinaryData = []
+	}
 }
