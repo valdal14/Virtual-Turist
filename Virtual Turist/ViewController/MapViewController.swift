@@ -13,8 +13,9 @@ enum MapError: String, Error {
 }
 
 class MapViewController: UIViewController, UIGestureRecognizerDelegate {
-
+	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
+	var flickerVM: FlickerViewModel = FlickerViewModel(flickerService: FlickerService())
 	
 	@IBOutlet weak var map: MKMapView!
 	
@@ -33,7 +34,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		do {
 			try fetchMapAnnotation()
 		} catch {
-			showAlert(message: .errorFetchingPin, viewController: self, completion: nil)
+			DisplayError.showAlert(message: .errorFetchingPin, viewController: self, completion: nil)
 		}
 	}
 	
@@ -65,6 +66,18 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 					annotation.coordinate = coordinate
 					annotation.title = "\(city) \(country)"
 					self.map.addAnnotation(annotation)
+					/// start downloading picture in background
+					DispatchQueue.global().async {
+						Task {
+							do {
+								try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
+							} catch {
+								DisplayError.showAlert(message: .flickerAPIError, viewController: self) { _ in
+									self.map.removeAnnotation(annotation)
+								}
+							}
+						}
+					}
 					/// send the pin to dataController that will interact with Core Data
 					self.passPinToDataController(annotation: annotation)
 				}
@@ -98,13 +111,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		let dataControllerVM = appDelegate.dataControllerVM
 		if let annotationTitle = annotation.title, let annotationAddress = annotationTitle {
 			/// save pin
-			dataControllerVM.savePin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
-									 address: annotationAddress, pin: nil,
-									 span: (map.region.span.latitudeDelta, map.region.span.longitudeDelta))
-			/// toggle the long gesture again once we saved the new location
-			self.longPressActive.toggle()
+			do {
+				try dataControllerVM.savePin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
+										 address: annotationAddress, pin: nil,
+										 span: (map.region.span.latitudeDelta, map.region.span.longitudeDelta))
+				/// toggle the long gesture again once we saved the new location
+				self.longPressActive.toggle()
+			} catch {
+				DispatchQueue.main.async {
+					DisplayError.showAlert(message: .cannotSaveContext, viewController: self, completion: nil)
+				}
+			}
+			
 		} else {
-			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+			DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
 	}
 	
@@ -120,9 +140,10 @@ extension MapViewController: MKMapViewDelegate {
 			photoMapVC.dataControllerVM = appDelegate.dataControllerVM
 			/// get the ping back from dataController
 			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
+			photoMapVC.flickerVM = flickerVM
 			show(photoMapVC, sender: self)
 		} else {
-			showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+			DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
 	}
 }

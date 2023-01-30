@@ -18,11 +18,15 @@ enum UIError: String, Error {
 	case errorFetchingPin = "Error while trying to fetch Map Pins from store"
 	case errorFetchingPhotos = "Error while trying to fetch Photos from store"
 	case dataControllerError = "Data controller is not responding, please try again"
-	case cannotDeleteImage = "Sorry but there was an error while deleting the picture"
+	case cannotDeleteImage = "There was an error while deleting the picture"
+	case cannotSaveContext = "There was an error trying to save one of the images. Some of the downloaded images may not be stored locally. Try again by opening the same pin again and create a new collection."
 }
 
-func showAlert(message: UIError, viewController: UIViewController, completion: alertAction) {
-	let alert = UIAlertController(title: "Virtual Turist Error", message: message.rawValue, preferredStyle: .alert)
-	alert.addAction(UIAlertAction(title: "OK", style: .default, handler: completion))
-	viewController.present(alert, animated: true)
+class DisplayError {
+	static func showAlert(message: UIError, viewController: UIViewController, completion: alertAction) {
+		let alert = UIAlertController(title: "Virtual Turist Error", message: message.rawValue, preferredStyle: .alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: completion))
+		viewController.present(alert, animated: true)
+	}
 }
+

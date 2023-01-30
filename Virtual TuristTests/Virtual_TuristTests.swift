@@ -55,7 +55,7 @@ final class Virtual_TuristTests: XCTestCase {
 	func test_ShowAlertFunction() {
 		let sut = UIViewController()
 		var alertTitle = ""
-		showAlert(message: UIError.invalidAnnotation, viewController: sut) { action in
+		DisplayError.showAlert(message: UIError.invalidAnnotation, viewController: sut) { action in
 			alertTitle += action.title ?? "Unkown"
 			XCTAssertEqual(alertTitle, "Virtual Turist Error")
 		}
