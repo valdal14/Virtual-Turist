@@ -14,7 +14,7 @@ enum UIError: String, Error {
 	case invalidAnnotation = "Cannot get the annotation information from the MAP"
 	case photoMapNotInitialized = "The Map cannot be instanciated with the given coordinates"
 	case flickerAPIError = "Cannot find images with the given location"
-	case invalidPin = "Cannot create a Map PIN"
+	case invalidPin = "Cannot create a Map PIN since no picture will be available with the given location. Please place your pin in a different place on the map since this one will be automatically removed"
 	case errorFetchingPin = "Error while trying to fetch Map Pins from store"
 	case errorFetchingPhotos = "Error while trying to fetch Photos from store"
 	case dataControllerError = "Data controller is not responding, please try again"

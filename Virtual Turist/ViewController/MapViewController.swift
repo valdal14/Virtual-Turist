@@ -21,6 +21,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 	
 	var longPressGesture = UILongPressGestureRecognizer()
 	var longPressActive = false
+	var wasErrorDetected = false
 	
 	
 	override func viewDidLoad() {
@@ -42,7 +43,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		if gesture.state == .began {
 			/// control the gesture behaviour
 			guard longPressActive == false else { return }
-			longPressActive.toggle()
+			longPressActive = true
 			/// give the user an aptive feedback
 			UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
 			/// get the position on the screen in CGPoint
@@ -67,19 +68,23 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 					annotation.title = "\(city) \(country)"
 					self.map.addAnnotation(annotation)
 					/// start downloading picture in background
-					DispatchQueue.global().async {
-						Task {
-							do {
-								try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
-							} catch {
-								DisplayError.showAlert(message: .flickerAPIError, viewController: self) { _ in
+					Task {
+						do {
+							try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
+							/// send the pin to dataController that will interact with Core Data
+							if !self.wasErrorDetected { self.passPinToDataController(annotation: annotation) }
+						} catch {
+							DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
+								self.wasErrorDetected = true
+								DispatchQueue.main.async {
+									/// restore the map
 									self.map.removeAnnotation(annotation)
+									self.longPressActive = false
+									self.wasErrorDetected = false
 								}
 							}
 						}
 					}
-					/// send the pin to dataController that will interact with Core Data
-					self.passPinToDataController(annotation: annotation)
 				}
 			}
 		}
@@ -113,8 +118,8 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 			/// save pin
 			do {
 				try dataControllerVM.savePin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
-										 address: annotationAddress, pin: nil,
-										 span: (map.region.span.latitudeDelta, map.region.span.longitudeDelta))
+											 address: annotationAddress, pin: nil,
+											 span: (map.region.span.latitudeDelta, map.region.span.longitudeDelta))
 				/// toggle the long gesture again once we saved the new location
 				self.longPressActive.toggle()
 			} catch {
@@ -126,6 +131,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		} else {
 			DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
+		
 	}
 	
 }
@@ -135,15 +141,17 @@ extension MapViewController: MKMapViewDelegate {
 	
 	/// triggered when we press an annotation, we pass the pin to the next VC
 	func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-		if let _ = annotation.title {
-			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
-			photoMapVC.dataControllerVM = appDelegate.dataControllerVM
-			/// get the ping back from dataController
-			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
-			photoMapVC.flickerVM = flickerVM
-			show(photoMapVC, sender: self)
-		} else {
-			DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+		if !wasErrorDetected {
+			if let _ = annotation.title {
+				let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
+				photoMapVC.dataControllerVM = appDelegate.dataControllerVM
+				/// get the ping back from dataController
+				photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
+				photoMapVC.flickerVM = flickerVM
+				show(photoMapVC, sender: self)
+			} else {
+				DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+			}
 		}
 	}
 }

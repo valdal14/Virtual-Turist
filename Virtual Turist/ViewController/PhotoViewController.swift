@@ -14,7 +14,7 @@ class PhotoViewController: UIViewController {
 	var dataControllerVM: DataControllerViewModel!
 	var flickerVM: FlickerViewModel!
 	
-	var selectedPinObject: Pin?
+	var selectedPinObject: Pin!
 	var selectedImageName: String = ""
 	let noImageLabel = UILabel()
 	let spinner = UIActivityIndicatorView(style: .large)
@@ -38,6 +38,7 @@ class PhotoViewController: UIViewController {
 		 we did not pressed on the new collection
 		 */
 		downloadFromFlicker(photoCount: selectedPinObject?.photos?.count, urlCount: flickerVM.pictureURL.count)
+		
 	}
 	
 	/// remove chached data when the view is pop out from the stack
@@ -158,11 +159,12 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		if let numberOfStoredPictures = selectedPinObject?.photos?.count, numberOfStoredPictures > 0 {
-			return dataControllerVM.photos.count
-		} else {
-			return flickerVM.pictureURL.count
-		}
+		return flickerVM.pictureURL.count
+//		if let numberOfStoredPictures = selectedPinObject?.photos?.count, numberOfStoredPictures > 0 {
+//			return dataControllerVM.photos.count
+//		} else {
+//			return flickerVM.pictureURL.count
+//		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -233,6 +235,8 @@ extension PhotoViewController {
 					}
 				} catch {
 					DisplayError.showAlert(message: .flickerAPIError, viewController: self, completion: nil)
+					self.setupSpinner(spinner: self.spinner, isVisible: false)
+					self.noImageLabel.isHidden = false
 				}
 			}
 		}
