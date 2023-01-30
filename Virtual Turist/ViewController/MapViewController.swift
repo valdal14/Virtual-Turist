@@ -67,12 +67,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 					annotation.coordinate = coordinate
 					annotation.title = "\(city) \(country)"
 					self.map.addAnnotation(annotation)
+					/// send the pin to dataController that will interact with Core Data
+					self.passPinToDataController(annotation: annotation)
 					/// start downloading picture in background
 					Task {
 						do {
 							try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
-							/// send the pin to dataController that will interact with Core Data
-							if !self.wasErrorDetected { self.passPinToDataController(annotation: annotation) }
 						} catch {
 							DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
 								self.wasErrorDetected = true
@@ -145,9 +145,9 @@ extension MapViewController: MKMapViewDelegate {
 			if let _ = annotation.title {
 				let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
 				photoMapVC.dataControllerVM = appDelegate.dataControllerVM
+				photoMapVC.flickerVM = flickerVM
 				/// get the ping back from dataController
 				photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
-				photoMapVC.flickerVM = flickerVM
 				show(photoMapVC, sender: self)
 			} else {
 				DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
