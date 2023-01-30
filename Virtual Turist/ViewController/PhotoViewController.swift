@@ -244,13 +244,13 @@ extension PhotoViewController {
 	
 	/// Send the binary data to the dataController to perform the insert operation
 	private func passPhotosToDataController(photoData: Data){
-		DispatchQueue.global().sync {
+		DispatchQueue.global().async {
 			/// create a unique image name
-			selectedImageName = UUID().uuidString
+			self.selectedImageName = UUID().uuidString
 			/// add photo from core data via dataController
-			if let pin = selectedPinObject {
+			if let pin = self.selectedPinObject {
 				do {
-					try dataControllerVM.savePicture(imageData: photoData, imageName: selectedImageName, pin: pin)
+					try self.dataControllerVM.savePicture(imageData: photoData, imageName: self.selectedImageName, pin: pin)
 				} catch {
 					/// handling saving issue or data erase issue
 					DispatchQueue.main.async {
