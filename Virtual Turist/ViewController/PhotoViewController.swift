@@ -11,12 +11,11 @@ import UIKit
 
 class PhotoViewController: UIViewController {
 	
-	var dataControllerVM: DataControllerViewModel?
-	var flickerVM: FlickerViewModel = FlickerViewModel(flickerService: FlickerService())
+	var dataControllerVM: DataControllerViewModel!
+	var flickerVM: FlickerViewModel!
 	
 	var selectedPinObject: Pin?
 	var selectedImageName: String = ""
-	var pictures: [UIImage] = []
 	let noImageLabel = UILabel()
 	let spinner = UIActivityIndicatorView(style: .large)
 	
@@ -34,14 +33,18 @@ class PhotoViewController: UIViewController {
 		super.viewWillAppear(animated)
 		setupPhotoMap(pin: selectedPinObject)
 		fetch()
+		/**
+		 This is going to be triggered if we previously delete all images and
+		 we did not pressed on the new collection
+		 */
+		downloadFromFlicker(photoCount: selectedPinObject?.photos?.count, urlCount: flickerVM.pictureURL.count)
 	}
 	
 	/// remove chached data when the view is pop out from the stack
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-		pictures = []
 		flickerVM.removeInMemoryPictureInformation()
-		dataControllerVM?.photos = []
+		dataControllerVM.photos = []
 	}
 	
 	/// start fetching pictures
@@ -50,13 +53,29 @@ class PhotoViewController: UIViewController {
 			if let pin = selectedPinObject {
 				try fetchPictures(selectedPinObject: pin)
 			} else {
-				showAlert(message: .invalidPin, viewController: self) { _ in
+				DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
 					self.navigationController?.popViewController(animated: true)
 				}
 			}
 		} catch {
-			showAlert(message: .errorFetchingPhotos, viewController: self) { _ in
+			DisplayError.showAlert(message: .errorFetchingPhotos, viewController: self) { _ in
 				self.navigationController?.popViewController(animated: true)
+			}
+		}
+	}
+	
+	func downloadFromFlicker(photoCount: Int?, urlCount: Int) {
+		if let count = photoCount {
+			if count == 0 && urlCount == 0 {
+				setupSpinner(spinner: self.spinner, isVisible: true)
+				/// get new collection from flickers
+				getPhotosFromFlicker {
+					DispatchQueue.main.async {
+						/// stop the spinner once done
+						self.setupSpinner(spinner: self.spinner, isVisible: false)
+						self.collectionView.reloadData()
+					}
+				}
 			}
 		}
 	}
@@ -77,51 +96,14 @@ class PhotoViewController: UIViewController {
 			}
 		} else {
 			/// show error message and pops back to MapViewController
-			showAlert(message: .photoMapNotInitialized, viewController: self) { _ in
+			DisplayError.showAlert(message: .photoMapNotInitialized, viewController: self) { _ in
 				self.navigationController?.popViewController(animated: true)
 			}
 		}
 	}
 	
 	private func fetchPictures(selectedPinObject: Pin) throws {
-		/// get a reference to the DataControllerViewModel
-		try dataControllerVM?.fetchPictures(selectedPinObject: selectedPinObject)
-		/// if no pictures associated with the selectedPin were found we start
-		/// the flicker api otherwise we load the picture from flicker
-		if let photosAssociatedWithSelectedPin = selectedPinObject.photos?.count {
-			if photosAssociatedWithSelectedPin != 0 {
-				let coreDataPhotoArray = dataControllerVM?.photos
-				var binaryData: [Data] = []
-				if let photoArray = coreDataPhotoArray {
-					for img in photoArray {
-						if let imgData = img.photoData {
-							binaryData.append(imgData)
-						}
-					}
-					/// pass the coredata binary data to the setupCollectionViewWithLocalPictures
-					setupCollectionViewWithLocalPictures(binaryData: binaryData)
-					/// enable the new collection button
-					toolbarButton.isHidden = false
-					
-				} else {
-					showAlert(message: .errorFetchingPhotos, viewController: self) { _ in
-						self.navigationController?.popViewController(animated: true)
-					}
-				}
-			} else {
-				/// start spinner animation
-				setupSpinner(spinner: spinner, isVisible: true)
-				getPhotosFromFlicker {
-					/// once the download is completed execute the completion to
-					/// start saving the photos into core data
-					DispatchQueue.global().async {
-						for imgData in self.flickerVM.uiImageBinaryData {
-							self.passPhotosToDataController(photoData: imgData)
-						}
-					}
-				}
-			}
-		}
+		try dataControllerVM.fetchPictures(selectedPinObject: selectedPinObject)
 	}
 	
 	
@@ -129,31 +111,43 @@ class PhotoViewController: UIViewController {
 		DispatchQueue.main.async {
 			self.noImageLabel.text = ""
 		}
-		/// start the spinner animation
-		setupSpinner(spinner: spinner, isVisible: true)
-		/// remove all in-memory picture info from the flicker service
-		flickerVM.removeInMemoryPictureInformation()
 		
 		var index = 0
-		for _ in pictures {
-			let indexPath = IndexPath(row: index, section: 0)
-			/// remove the picture from the pictures array
-			pictures.remove(at: indexPath.row)
-			/// remove from the collection view
-			collectionView.deleteItems(at: [indexPath])
-			/// pass the indexPath to passPhotoToDeleteToDataController to
-			/// remove the single image at indexPath
-			passPhotoToDeleteToDataController(indexPath: indexPath)
-			index += 0
+		
+		for image in dataControllerVM.photos {
+			/// delete photo from core data via dataController from core data
+			if let imageName = image.name {
+				do {
+					try dataControllerVM.deletePicture(imageName: imageName)
+				} catch {
+					DispatchQueue.main.async {
+						DisplayError.showAlert(message: .cannotSaveContext, viewController: self) { _ in
+							self.navigationController?.popViewController(animated: true)
+						}
+					}
+				}
+			}
+			index += 1
 		}
+		
+		/// remove all in-memory picture info from the flicker service
+		flickerVM.removeInMemoryPictureInformation()
+		/// remove all images from dataController
+		dataControllerVM.photos = []
+		/// start the spinner animation since we start downloading new pictures
+		setupSpinner(spinner: spinner, isVisible: true)
+		/// reload the collection view
+		DispatchQueue.main.async {
+			self.collectionView.reloadData()
+		}
+		
 		/// get new collection from flickers
 		getPhotosFromFlicker {
-			/// once the download is completed execute the completion to
-			/// start saving the photos into core data
-			DispatchQueue.global().async {
-				for imgData in self.flickerVM.uiImageBinaryData {
-					self.passPhotosToDataController(photoData: imgData)
-				}
+			DispatchQueue.main.async {
+				/// stop the spinner once done
+				self.setupSpinner(spinner: self.spinner, isVisible: false)
+				self.collectionView.reloadData()
+				
 			}
 		}
 	}
@@ -164,71 +158,83 @@ class PhotoViewController: UIViewController {
 extension PhotoViewController: UICollectionViewDataSource {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return pictures.count
+		if let numberOfStoredPictures = selectedPinObject?.photos?.count, numberOfStoredPictures > 0 {
+			return dataControllerVM.photos.count
+		} else {
+			return flickerVM.pictureURL.count
+		}
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionViewCell", for: indexPath) as! PhotoCollectionViewCell
 		/// setup a cell or use a placeholder
-		cell.setupCell(with: pictures, indexPath: indexPath)
-		return cell
+		cell.spinner.startAnimating()
+		/// if we have already pictures available and associated with this Map pin we get it
+		/// from core data, otherwise we will get from the downloaded URLs
+		if let numberOfStoredPictures = selectedPinObject?.photos?.count, numberOfStoredPictures > 0 {
+			/// pass the coredata binary data to the setupCollectionViewWithLocalPictures
+			if let imgData = dataControllerVM.photos[indexPath.row].photoData {
+				cell.photoImage.image = UIImage(data: imgData)
+				cell.spinner.stopAnimating()
+			}
+			/// enable the new collection button
+			toolbarButton.isHidden = false
+			return cell
+		} else {
+			/// start fetching images from URLs
+			let imgURL = flickerVM.pictureURL[indexPath.row].source
+			if let url = URL(string: imgURL) {
+				DispatchQueue.global().async {
+					let imageData = try! Data(contentsOf: url)
+					/// pass the imageData to the dataController to store it in Core data
+					self.passPhotosToDataController(photoData: imageData)
+					DispatchQueue.main.async {
+						cell.photoImage.image = UIImage(data: imageData)
+						cell.spinner.stopAnimating()
+					}
+				}
+			}
+			/// enable the new collection button
+			toolbarButton.isHidden = false
+			return cell
+		}
 	}
 }
 
 //MARK: - CollectionView Delegation
 extension PhotoViewController: UICollectionViewDelegate {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		/// remove the picture from the pictures array
-		pictures.remove(at: indexPath.row)
-		/// remove from the collection view
-		collectionView.deleteItems(at: [indexPath])
-		/// remove a picture when we tap on it
+		/// remove a picture from core data
 		passPhotoToDeleteToDataController(indexPath: indexPath)
+		
+		DispatchQueue.main.async {
+			collectionView.reloadData()
+		}
+	}
+}
+
+//MARK: - UICollectionViewDelegateFlowLayout delegation
+extension PhotoViewController: UICollectionViewDelegateFlowLayout {
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		return CGSize(width: 120, height: 120)
 	}
 }
 
 //MARK: - Flicker APIs
 extension PhotoViewController {
 	private func getPhotosFromFlicker(completion: @escaping () -> Void) {
-		Task {
-			if let searchTerm = selectedPinObject?.fullAddress {
+		/// start downloading picture in background
+		DispatchQueue.global().async {
+			Task {
 				do {
-					try await flickerVM.combineFetchedData(text: searchTerm)
-					/// if the download is completed I can start adding pictures to the
-					/// collectionView and remove the No Image label if it is not hidden already
-					self.setupCollectionViewWithLocalPictures(binaryData: flickerVM.uiImageBinaryData)
-					/// enable the new collection button
-					self.toolbarButton.isHidden = false
-					/// stop the spinner animation
-					setupSpinner(spinner: spinner, isVisible: false)
-					/// call the completion handler
-					completion()
-				} catch {
-					/// show no image label
-					showAlert(message: .flickerAPIError, viewController: self) { _ in
-						self.setupNoImagesLabel(with: self.noImageLabel, numberOfImage: self.pictures.count)
-						/// stop the spinner animation
-						self.setupSpinner(spinner: self.spinner, isVisible: false)
+					if let searchTerm = self.selectedPinObject?.fullAddress {
+						try await self.flickerVM.getPicturesFromFlickerService(text: searchTerm)
+						completion()
 					}
+				} catch {
+					DisplayError.showAlert(message: .flickerAPIError, viewController: self, completion: nil)
 				}
 			}
-		}
-	}
-	
-	/// convert binary data into UIImage and add them to the CollectionView
-	private func setupCollectionViewWithLocalPictures(binaryData: [Data]) {
-		DispatchQueue.main.async {
-			var index = 0
-			for imgData in binaryData {
-				let img = UIImage(data: imgData)
-				let indexPath = IndexPath(row: index, section: 0)
-				if let image = img {
-					self.pictures.append(image)
-					self.collectionView.insertItems(at: [indexPath])
-					index += 1
-				}
-			}
-			self.noImageLabel.isHidden = true
 		}
 	}
 }
@@ -238,41 +244,57 @@ extension PhotoViewController {
 	
 	/// Send the binary data to the dataController to perform the insert operation
 	private func passPhotosToDataController(photoData: Data){
-		if let dataControllerVM = dataControllerVM {
+		DispatchQueue.global().sync {
 			/// create a unique image name
 			selectedImageName = UUID().uuidString
 			/// add photo from core data via dataController
 			if let pin = selectedPinObject {
-				dataControllerVM.savePicture(imageData: photoData, imageName: selectedImageName, pin: pin)
+				do {
+					try dataControllerVM.savePicture(imageData: photoData, imageName: selectedImageName, pin: pin)
+				} catch {
+					/// handling saving issue or data erase issue
+					DispatchQueue.main.async {
+						self.collectionView.reloadData()
+						//showAlert(message: .cannotSaveContext, viewController: self, completion: nil)
+					}
+				}
 			} else {
-				showAlert(message: .invalidPin, viewController: self) { _ in
+				DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
 					self.navigationController?.popViewController(animated: true)
 				}
-			}
-		} else {
-			showAlert(message: .dataControllerError, viewController: self) { _ in
-				self.navigationController?.popViewController(animated: true)
 			}
 		}
 	}
 	
 	/// delete selected photo from memory and core data
 	private func passPhotoToDeleteToDataController(indexPath: IndexPath) {
-		if let dataControllerVM = dataControllerVM {
-			/// get the image name I want to delete from core data
-			let imageName = dataControllerVM.photos[indexPath.row].name
-			if let imageName = imageName {
-				/// delete photo from core data via dataController
-				dataControllerVM.deletePicture(imageName: imageName)
-				/// show no image if no images all images have been deleted
-				if pictures.isEmpty {
-					setupNoImagesLabel(with: noImageLabel, numberOfImage: pictures.count)
+		/// get the image name I want to delete from core data
+		let imageName = dataControllerVM.photos[indexPath.row].name
+		if let imageName = imageName {
+			do {
+				/// remove the image from the dataController first
+				dataControllerVM.photos.remove(at: indexPath.row)
+				/// delete photo from core data via dataController from core data
+				try dataControllerVM.deletePicture(imageName: imageName)
+				/// also remove the pictureURL at indexPath if the state is .flickerAPI
+				if !flickerVM.pictureURL.isEmpty {
+					flickerVM.pictureURL.remove(at: indexPath.row)
 				}
-			} else {
-				showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
+				
+				/// show no image if no images all images have been deleted
+				if dataControllerVM.photos.isEmpty || flickerVM.pictureURL.isEmpty {
+					setupNoImagesLabel(with: noImageLabel, numberOfImage: dataControllerVM.photos.count)
+					toolbarButton.isHidden = false
+				}
+				
+			} catch {
+				DispatchQueue.main.async {
+					DisplayError.showAlert(message: .cannotSaveContext, viewController: self, completion: nil)
+				}
 			}
+			
 		} else {
-			showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
+			DisplayError.showAlert(message: .cannotDeleteImage, viewController: self, completion: nil)
 		}
 	}
 }

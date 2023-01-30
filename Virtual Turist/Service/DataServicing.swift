@@ -18,7 +18,7 @@ protocol DataServicing {
 								  imageData: Data?,
 								  imageName: String?,
 								  pin: Pin?,
-								  center: (Double, Double)?)
+								  center: (Double, Double)?) throws
 	
 	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>, pin: Pin?) throws -> [T]
 }
@@ -53,7 +53,7 @@ class DataControllerService: DataServicing {
 								  imageData: Data?,
 								  imageName: String?,
 								  pin: Pin?,
-								  center: (Double, Double)?) {
+								  center: (Double, Double)?) throws {
 		
 		let viewContext = persistentContainer.viewContext
 		
@@ -90,8 +90,12 @@ class DataControllerService: DataServicing {
 				}
 			}
 		}
+		do {
+			try saveData(context: viewContext)
+		} catch {
+			throw DataControllerError.savingError
+		}
 		
-		try? saveData(context: viewContext)
 	}
 	
 	func getDataFromCoreDataStore<T>(persistentContainer: NSPersistentContainer, request: NSFetchRequest<T>, pin: Pin?) throws -> [T] where T : NSFetchRequestResult  {
@@ -114,11 +118,9 @@ class DataControllerService: DataServicing {
 				let photos = try fetchRequestObjectData(request: photoRequest, context: viewContext)
 				return photos as! [T]
 			}  else {
-				print(DataControllerError.invalidPin)
 				throw DataControllerError.invalidPin
 			}
 		} else {
-			print(DataControllerError.invalidaType)
 			throw DataControllerError.invalidaType
 		}
 	}
@@ -129,7 +131,6 @@ class DataControllerService: DataServicing {
 			let object = try context.fetch(request)
 			return object
 		} catch {
-			print(DataControllerError.fetchingError)
 			throw DataControllerError.fetchingError
 		}
 	}
@@ -138,7 +139,6 @@ class DataControllerService: DataServicing {
 		do {
 			try context.save()
 		} catch {
-			print(DataControllerError.savingError)
 			throw DataControllerError.savingError
 		}
 	}

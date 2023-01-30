@@ -31,10 +31,10 @@ extension PhotoViewController {
 	}
 	
 	public func setupSpinner(spinner: UIActivityIndicatorView, isVisible: Bool) {
-		view.addSubview(spinner)
-		spinner.translatesAutoresizingMaskIntoConstraints = false
-		spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-		spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-		isVisible ? spinner.startAnimating() : spinner.stopAnimating()
-	}
+			view.addSubview(spinner)
+			spinner.translatesAutoresizingMaskIntoConstraints = false
+			spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+			spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+			isVisible ? spinner.startAnimating() : spinner.stopAnimating()
+		}
 }

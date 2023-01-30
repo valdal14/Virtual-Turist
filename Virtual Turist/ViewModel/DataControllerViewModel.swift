@@ -38,8 +38,8 @@ class DataControllerViewModel {
 	}
 	
 	//MARK: - Data Helper methods
-	func savePin(coordinates: (Double, Double), address: String, pin: Pin?, span: (Double, Double)) {
-		dataControllerService.performCoreDataOperation(persistentContainer: container,
+	func savePin(coordinates: (Double, Double), address: String, pin: Pin?, span: (Double, Double)) throws {
+		try dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .pin,
 													   operation: .add,
 													   coordinates: coordinates,
@@ -53,7 +53,7 @@ class DataControllerViewModel {
 		/// this will populate the pins array and
 		/// allow to fetch the new selected pin via
 		/// fetchSelectedPin(coordinates:)
-		try? fetchMapPins(pin: nil)
+		try fetchMapPins(pin: nil)
 	}
 	
 	func fetchMapPins(pin: Pin?) throws {
@@ -77,14 +77,14 @@ class DataControllerViewModel {
 		photos = try dataControllerService.getDataFromCoreDataStore(persistentContainer: container, request: request, pin: selectedPinObject)
 	}
 	
-	func savePicture(imageData: Data, imageName: String, pin: Pin){
+	func savePicture(imageData: Data, imageName: String, pin: Pin) throws {
 		let newPhoto = Photo(context: self.container.viewContext)
 		newPhoto.name = imageName
 		newPhoto.photoData = imageData
 		newPhoto.pin = pin
 		photos.append(newPhoto)
 		
-		dataControllerService.performCoreDataOperation(persistentContainer: container,
+		try dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .photo,
 													   operation: .add,
 													   coordinates: nil,
@@ -95,11 +95,8 @@ class DataControllerViewModel {
 													   center: nil)
 	}
 	
-	func deletePicture(imageName: String) {
-		/// remove the selected image from the dataController photos array
-		photos = photos.filter { $0.name != imageName }
-		///
-		dataControllerService.performCoreDataOperation(persistentContainer: container,
+	func deletePicture(imageName: String) throws {
+		try dataControllerService.performCoreDataOperation(persistentContainer: container,
 													   dataType: .photo,
 													   operation: .delete,
 													   coordinates: nil,
