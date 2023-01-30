@@ -60,7 +60,7 @@ class FlickerViewModel {
 				throw FlickerError.badRequest
 			}
 			
-		} catch let error as FlickerError {
+		} catch {
 			throw FlickerError.badURL
 		}
 	}
