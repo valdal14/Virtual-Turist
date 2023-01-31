@@ -86,13 +86,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 												   span: (region.span.latitudeDelta, region.span.longitudeDelta))
 					}
 					
-					/// send the pin to dataController that will interact with Core Data
-					self.passPinToDataController(annotation: annotation)
-					
 					/// start downloading picture
 					Task {
 						do {
 							try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
+							/// send the pin to dataController that will interact with Core Data
+							self.passPinToDataController(annotation: annotation)
 						} catch {
 							DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
 								self.wasErrorDetected = true
