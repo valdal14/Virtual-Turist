@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		014253182983AEE600E04468 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014253172983AEE600E04468 /* PhotoCollectionViewCell.swift */; };
+		0147DF0B2988EABD00C15A98 /* DataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0147DF0A2988EABD00C15A98 /* DataSourceModel.swift */; };
 		018F9142298190AD00C72A7B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F9141298190AD00C72A7B /* AppDelegate.swift */; };
 		018F9144298190AD00C72A7B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F9143298190AD00C72A7B /* SceneDelegate.swift */; };
 		018F9146298190AD00C72A7B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 018F9145298190AD00C72A7B /* MapViewController.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		014253172983AEE600E04468 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		0147DF0A2988EABD00C15A98 /* DataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceModel.swift; sourceTree = "<group>"; };
 		018F913E298190AD00C72A7B /* Virtual Turist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Virtual Turist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		018F9141298190AD00C72A7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		018F9143298190AD00C72A7B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				01B38ABF298192A7005BBB0B /* CoreDataModel */,
 				01B38AC8298192A7005BBB0B /* FlickerModel.swift */,
+				0147DF0A2988EABD00C15A98 /* DataSourceModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				01B38AD3298192C5005BBB0B /* DataServicing.swift in Sources */,
 				01B38ADC298193AD005BBB0B /* PhotoViewController.swift in Sources */,
 				01FD7AF129866CA80083A2A7 /* PhotoViewController+UIExtensions.swift in Sources */,
+				0147DF0B2988EABD00C15A98 /* DataSourceModel.swift in Sources */,
 				01A622202982AE8A0083A427 /* ErrorHandling.swift in Sources */,
 				01B38AD8298192D3005BBB0B /* FlickerViewModel.swift in Sources */,
 				018F9144298190AD00C72A7B /* SceneDelegate.swift in Sources */,

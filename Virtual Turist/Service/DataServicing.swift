@@ -61,16 +61,14 @@ class DataControllerService: DataServicing {
 		case .add:
 			switch dataType {
 			case .pin:
-				let pin = Pin(context: viewContext)
-				if let span = center {
-					pin.latDelta = span.0
-					pin.longDelta = span.1
-				}
-				pin.creationDate = Date()
-				pin.fullAddress = address
-				if let lat = coordinates?.0, let long = coordinates?.1 {
-					pin.latitude = lat
-					pin.longitude = long
+				if let pin = pin {
+					let newPin = Pin(context: viewContext)
+					newPin.latDelta = pin.latDelta
+					newPin.longDelta = pin.longDelta
+					newPin.creationDate = pin.creationDate
+					newPin.fullAddress = pin.fullAddress
+					newPin.latitude = pin.latitude
+					newPin.longitude = pin.longitude
 				}
 			case .photo:
 				guard let selectedPin = pin else { return }

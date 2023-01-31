@@ -15,8 +15,9 @@ class FlickerViewModel {
 	private let flickerService: FlickerService
 	private static let apiKey = "c110cf234c60e55ff8733bc3a1afd72f"
 	private static let maxSize = 21
-	private var pictureData: [Picture] = []
+	var pictureData: [Picture] = []
 	var pictureURL: [PictureURL] = []
+	var flickerPhoto: [Photo] = []
 	
 	enum Endpoint: String {
 		case getPicturesByText = "https://api.flickr.com/services/rest/"
@@ -37,25 +38,16 @@ class FlickerViewModel {
 	func getPicturesFromFlickerService(text: String) async throws {
 		do {
 			let url = try flickerService.createFlickerSearchURL(endpointURL: Endpoint.getPicturesByText.rawValue,
-													  method: ApiMethod.search.rawValue,
-													  apiKey: FVM.apiKey,
-													  text: text,
-													  maxPictures: FVM.maxSize)
+																method: ApiMethod.search.rawValue,
+																apiKey: FVM.apiKey,
+																text: text,
+																maxPictures: FVM.maxSize)
 			
 			guard let url = url else { throw FlickerError.badURL }
 			
 			do {
 				self.pictureData = try await flickerService.fetchPicture(searchTerm: text, url: url)
-				/// fetch image url source
-				do {
-					
-					for picture in pictureData {
-						try await self.getPhotoSizeURL(photoId: picture.id)
-					}
-					
-				} catch {
-					throw FlickerError.badRequest
-				}
+				print("PICTURE DOWNLOADED")
 			} catch {
 				throw FlickerError.badRequest
 			}
@@ -66,7 +58,7 @@ class FlickerViewModel {
 	}
 	
 	/// Get photo URLs
-	private func getPhotoSizeURL(photoId: String) async throws {
+	func getPhotoSizeURL(photoId: String, pin: Pin, dataController: DataControllerViewModel) async throws {
 		do {
 			let url = try flickerService.createFlickerGetSizeURL(endpointURL: Endpoint.getPicturesByText.rawValue,
 																 method: ApiMethod.getSize.rawValue,
@@ -79,7 +71,27 @@ class FlickerViewModel {
 				let picture = try await flickerService.fetchPictureSizes(url: url)
 				let extractDefaultSize = picture.filter({ $0.label == defaultImageSize })
 				if let imgUrl = extractDefaultSize.first {
-					pictureURL.append(imgUrl)
+					//pictureURL.append(imgUrl)
+					if let url = URL(string: imgUrl.source) {
+						let imageData = try! Data(contentsOf: url)
+						let newPhoto = Photo(context: dataController.container.viewContext)
+						newPhoto.pin = pin
+						newPhoto.name = UUID().uuidString
+						newPhoto.photoData = imageData
+						
+						let dc = dataController
+						try dc.dataControllerService.performCoreDataOperation(persistentContainer: dataController.container,
+																		  dataType: .photo,
+																		  operation: .add,
+																		  coordinates: (pin.latitude, pin.longitude),
+																		  address: pin.fullAddress,
+																		  imageData: imageData,
+																		  imageName: UUID().uuidString,
+																		  pin: pin,
+																		  center: (pin.latDelta, pin.longDelta))
+						/// once saved let's store it inside the photo array in the dataController
+						dataController.photos.append(newPhoto)
+					}
 				}
 			} catch {
 				throw FlickerError.badRequest

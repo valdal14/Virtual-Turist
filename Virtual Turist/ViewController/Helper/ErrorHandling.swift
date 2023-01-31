@@ -20,6 +20,7 @@ enum UIError: String, Error {
 	case dataControllerError = "Data controller is not responding, please try again"
 	case cannotDeleteImage = "There was an error while deleting the picture"
 	case cannotSaveContext = "There was an error trying to save one of the images. Some of the downloaded images may not be stored locally. Try again by opening the same pin again and create a new collection."
+	case noGivenState = "Cannot determine the data source state"
 }
 
 class DisplayError {
