@@ -16,15 +16,19 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 	
 	let appDelegate = UIApplication.shared.delegate as! AppDelegate
 	var flickerVM: FlickerViewModel = FlickerViewModel(flickerService: FlickerService())
+	var currentPin: Pin?
+	var currentPinState: DSModel.PinState = .old
 	
 	@IBOutlet weak var map: MKMapView!
 	
 	var longPressGesture = UILongPressGestureRecognizer()
 	var longPressActive = false
+	var wasErrorDetected = false
 	
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		print(currentPinState)
 		/// map gesture configuration
 		longPressGesture.delegate = self
 		longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressHandler))
@@ -38,11 +42,20 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		}
 	}
 	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		/// reset the pin state
+		currentPinState = .old
+		print(currentPinState)
+	}
+	
 	@objc func longPressHandler(_ gesture: UITapGestureRecognizer) {
 		if gesture.state == .began {
+			/// set the pinStata
+			currentPinState = .new
 			/// control the gesture behaviour
 			guard longPressActive == false else { return }
-			longPressActive.toggle()
+			longPressActive = true
 			/// give the user an aptive feedback
 			UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
 			/// get the position on the screen in CGPoint
@@ -66,23 +79,49 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 					annotation.coordinate = coordinate
 					annotation.title = "\(city) \(country)"
 					self.map.addAnnotation(annotation)
-					/// start downloading picture in background
-					DispatchQueue.global().async {
-						Task {
-							do {
-								try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
-							} catch {
-								DisplayError.showAlert(message: .flickerAPIError, viewController: self) { _ in
+					let region = self.map.region
+					/// set the current pin
+					if let title = annotation.title {
+						self.setCurrentSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
+												   address: title,
+												   pin: nil,
+												   span: (region.span.latitudeDelta, region.span.longitudeDelta))
+					}
+					
+					/// send the pin to dataController that will interact with Core Data
+					self.passPinToDataController(annotation: annotation)
+					
+					/// start downloading picture
+					Task {
+						do {
+							try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
+						} catch {
+							DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
+								self.wasErrorDetected = true
+								DispatchQueue.main.async {
+									/// restore the map
 									self.map.removeAnnotation(annotation)
+									self.longPressActive = false
+									self.wasErrorDetected = false
 								}
 							}
 						}
 					}
-					/// send the pin to dataController that will interact with Core Data
-					self.passPinToDataController(annotation: annotation)
 				}
 			}
 		}
+	}
+	
+	private func setCurrentSelectedPin(coordinates: (Double, Double), address: String, pin: Pin?, span: (Double, Double)) {
+		let pin = Pin(context: appDelegate.dataControllerVM.container.viewContext)
+		pin.creationDate = Date()
+		pin.fullAddress = address
+		pin.latitude = coordinates.0
+		pin.longitude = coordinates.1
+		pin.latDelta = span.0
+		pin.longDelta = span.1
+		
+		currentPin = pin
 	}
 	
 	private func fetchMapAnnotation() throws {
@@ -112,11 +151,13 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		if let annotationTitle = annotation.title, let annotationAddress = annotationTitle {
 			/// save pin
 			do {
-				try dataControllerVM.savePin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
-										 address: annotationAddress, pin: nil,
-										 span: (map.region.span.latitudeDelta, map.region.span.longitudeDelta))
-				/// toggle the long gesture again once we saved the new location
-				self.longPressActive.toggle()
+				if let pin = currentPin {
+					try dataControllerVM.savePin(coordinates: (pin.latitude, pin.longitude),
+												 address: annotationAddress, pin: pin,
+												 span: (pin.latDelta, pin.longDelta))
+					/// toggle the long gesture again once we saved the new location
+					self.longPressActive.toggle()
+				}
 			} catch {
 				DispatchQueue.main.async {
 					DisplayError.showAlert(message: .cannotSaveContext, viewController: self, completion: nil)
@@ -126,6 +167,7 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		} else {
 			DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
 		}
+		
 	}
 	
 }
@@ -135,15 +177,22 @@ extension MapViewController: MKMapViewDelegate {
 	
 	/// triggered when we press an annotation, we pass the pin to the next VC
 	func mapView(_ mapView: MKMapView, didSelect annotation: MKAnnotation) {
-		if let _ = annotation.title {
-			let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
-			photoMapVC.dataControllerVM = appDelegate.dataControllerVM
-			/// get the ping back from dataController
-			photoMapVC.selectedPinObject = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
-			photoMapVC.flickerVM = flickerVM
-			show(photoMapVC, sender: self)
-		} else {
-			DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+		if !wasErrorDetected {
+			if let _ = annotation.title {
+				let photoMapVC = storyboard?.instantiateViewController(withIdentifier: "photoVC") as! PhotoViewController
+				photoMapVC.dataControllerVM = appDelegate.dataControllerVM
+				photoMapVC.flickerVM = flickerVM
+				/// get the ping back from dataController
+				currentPin = appDelegate.dataControllerVM.fetchSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude))
+				if let pin = currentPin {
+					photoMapVC.selectedPinObject = pin
+					/// set the current model state
+					photoMapVC.selectedPinState = currentPinState
+					show(photoMapVC, sender: self)
+				}
+			} else {
+				DisplayError.showAlert(message: .invalidAnnotation, viewController: self, completion: nil)
+			}
 		}
 	}
 }
