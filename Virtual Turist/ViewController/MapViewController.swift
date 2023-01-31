@@ -83,13 +83,15 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 					/// set the current pin
 					if let title = annotation.title {
 						self.setCurrentSelectedPin(coordinates: (annotation.coordinate.latitude, annotation.coordinate.longitude),
-												   address: title, pin: nil, span: (region.span.latitudeDelta, region.span.longitudeDelta))
+												   address: title,
+												   pin: nil,
+												   span: (region.span.latitudeDelta, region.span.longitudeDelta))
 					}
 					
 					/// send the pin to dataController that will interact with Core Data
 					self.passPinToDataController(annotation: annotation)
 					
-					/// start downloading picture in background
+					/// start downloading picture
 					Task {
 						do {
 							try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")

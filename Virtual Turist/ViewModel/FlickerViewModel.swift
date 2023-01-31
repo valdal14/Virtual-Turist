@@ -47,7 +47,6 @@ class FlickerViewModel {
 			
 			do {
 				self.pictureData = try await flickerService.fetchPicture(searchTerm: text, url: url)
-				print("PICTURE DOWNLOADED")
 			} catch {
 				throw FlickerError.badRequest
 			}
