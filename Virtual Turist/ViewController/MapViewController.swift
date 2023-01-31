@@ -28,7 +28,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		print(currentPinState)
 		/// map gesture configuration
 		longPressGesture.delegate = self
 		longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressHandler))
@@ -46,7 +45,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		super.viewWillDisappear(animated)
 		/// reset the pin state
 		currentPinState = .old
-		print(currentPinState)
 	}
 	
 	@objc func longPressHandler(_ gesture: UITapGestureRecognizer) {
