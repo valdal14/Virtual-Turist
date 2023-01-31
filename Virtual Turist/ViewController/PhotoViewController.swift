@@ -86,6 +86,8 @@ class PhotoViewController: UIViewController {
 				}
 			}
 		} else {
+			self.setupSpinner(spinner: self.spinner, isVisible: true)
+			
 			var index = 0
 			for image in dataControllerVM.photos {
 				/// delete photo from core data via dataController from core data
