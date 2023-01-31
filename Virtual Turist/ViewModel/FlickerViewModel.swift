@@ -14,7 +14,7 @@ class FlickerViewModel {
 	private let defaultImageSize = "Square"
 	private let flickerService: FlickerService
 	private static let apiKey = "c110cf234c60e55ff8733bc3a1afd72f"
-	private static let maxSize = 21
+	private static let maxSize = 18
 	var pictureData: [Picture] = []
 	var pictureURL: [PictureURL] = []
 	var flickerPhoto: [Photo] = []

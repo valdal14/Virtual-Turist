@@ -26,7 +26,7 @@ class FlickerService: FlickerServicing {
 	
 	func createFlickerSearchURL(endpointURL: String, method: String, apiKey: String, text: String, maxPictures: Int) throws -> URL? {
 		let searchTerm = text.replacingOccurrences(of: " ", with: "%20")
-		let stringURL = "\(endpointURL)?method=\(method)&api_key=\(apiKey)&text=\(searchTerm)&per_page=\(maxPictures)&format=json&nojsoncallback=1"
+		let stringURL = "\(endpointURL)?method=\(method)&api_key=\(apiKey)&text=\(searchTerm)&per_page=\(Int.random(in: 1...maxPictures))&format=json&nojsoncallback=1"
 		return URL(string: stringURL) ?? nil
 	}
 	
