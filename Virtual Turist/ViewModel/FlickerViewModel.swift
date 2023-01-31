@@ -18,6 +18,7 @@ class FlickerViewModel {
 	var pictureData: [Picture] = []
 	var pictureURL: [PictureURL] = []
 	var flickerPhoto: [Photo] = []
+	var index: Int = 0
 	
 	enum Endpoint: String {
 		case getPicturesByText = "https://api.flickr.com/services/rest/"
@@ -41,12 +42,15 @@ class FlickerViewModel {
 																method: ApiMethod.search.rawValue,
 																apiKey: FVM.apiKey,
 																text: text,
-																maxPictures: FVM.maxSize)
+																maxPictures: (1000 / FVM.maxSize))
 			
 			guard let url = url else { throw FlickerError.badURL }
 			
 			do {
 				self.pictureData = try await flickerService.fetchPicture(searchTerm: text, url: url)
+				for _ in pictureData {
+					await (UIApplication.shared.delegate as! AppDelegate).dataControllerVM.photos.append(Photo(context: (UIApplication.shared.delegate as! AppDelegate).dataControllerVM.container.viewContext))
+				}
 			} catch {
 				throw FlickerError.badRequest
 			}
@@ -89,7 +93,10 @@ class FlickerViewModel {
 																		  pin: pin,
 																		  center: (pin.latDelta, pin.longDelta))
 						/// once saved let's store it inside the photo array in the dataController
-						dataController.photos.append(newPhoto)
+						//dataController.photos.append(newPhoto)
+						dataController.photos[index] = newPhoto
+						index += 1
+						
 					}
 				}
 			} catch {
@@ -104,5 +111,6 @@ class FlickerViewModel {
 	func removeInMemoryPictureInformation() {
 		pictureData = []
 		pictureURL = []
+		index = 0
 	}
 }
