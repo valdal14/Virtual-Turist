@@ -28,7 +28,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		print(currentPinState)
 		/// map gesture configuration
 		longPressGesture.delegate = self
 		longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(longPressHandler))
@@ -46,7 +45,6 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 		super.viewWillDisappear(animated)
 		/// reset the pin state
 		currentPinState = .old
-		print(currentPinState)
 	}
 	
 	@objc func longPressHandler(_ gesture: UITapGestureRecognizer) {
@@ -88,13 +86,12 @@ class MapViewController: UIViewController, UIGestureRecognizerDelegate {
 												   span: (region.span.latitudeDelta, region.span.longitudeDelta))
 					}
 					
-					/// send the pin to dataController that will interact with Core Data
-					self.passPinToDataController(annotation: annotation)
-					
 					/// start downloading picture
 					Task {
 						do {
 							try await self.flickerVM.getPicturesFromFlickerService(text: "\(city) \(country)")
+							/// send the pin to dataController that will interact with Core Data
+							self.passPinToDataController(annotation: annotation)
 						} catch {
 							DisplayError.showAlert(message: .invalidPin, viewController: self) { _ in
 								self.wasErrorDetected = true
